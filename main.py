@@ -1,7 +1,7 @@
 def main():
     pass
 
-def "สวัสดีครับ"
+def welcome():
     pass
 
 def pull_data():
