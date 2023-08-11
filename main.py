@@ -2,6 +2,7 @@ def main():
     pass
 
 def welcome():
+    print("-------------------- Calculate Grade Programing --------------------")
     pass
 
 def pull_data():
@@ -21,4 +22,5 @@ def check_grade():
 
 if __name__ == '__main__':
     main()
+    welcome()
     
