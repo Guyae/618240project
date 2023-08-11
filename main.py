@@ -1,7 +1,7 @@
 def main():
     pass
 
-def "สวัสดีครับ"
+def welcome():
     pass
 
 def pull_data():
@@ -14,7 +14,7 @@ def sort_data():
     pass
 
 def calculate_score():
-    
+    pass
 
 def check_grade():
     pass
