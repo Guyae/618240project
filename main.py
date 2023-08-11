@@ -1,4 +1,5 @@
 def main(): 
+    pass
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
