@@ -1,7 +1,9 @@
 import csv
 
 def main(): 
+    filename = ""
     choice = welcome()
+    print(choice)
     if choice == 1:
         filename = "test.csv"
     elif choice == 2:
@@ -17,6 +19,7 @@ def main():
     
     print("Do you want to pull/add : ")
     ask_pull_add = input(">").lower
+    add_data(filename)
     if ask_pull_add == 'pull':
         pull_data(filename)
     elif ask_pull_add == 'add':
@@ -33,25 +36,19 @@ def welcome():
                 6. GPA
                 7. Quit''')
     while True:
-        print("Enter your subject (1-7) :")
-        choice = input(">")
-        if not choice.isdecimal:
-            print("Enter number please")
+        print('Enter your subject (1-7):')
+        choice = input('> ')
+        if not choice.isdecimal():
+            print('Please enter a number.')
         else:
-            break
+            break  # Exit the loop once a valid number is entered.  
     return choice
 
 def pull_data(filename):
     pass
 
 def add_data(filename):
-    data_list = []
-    with open(filename, 'r+') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        for i in csv_reader:
-            if i != []:
-                data_list.append(i)
-        print(data_list)
+    print("Hello")
 
 def sort_data():
     pass
@@ -64,4 +61,5 @@ def check_grade():
 
 if __name__ == '__main__':
     main()
+    add_data('test.csv')
     
