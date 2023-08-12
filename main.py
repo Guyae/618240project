@@ -32,8 +32,13 @@ def welcome():
                 5. 618250-165 DIGITAL CIRCUITS AND LOGIC DESIGN
                 6. GPA
                 7. Quit''')
-    
-    choice = int(input("Enter your subject (1-7)" :))
+    while True:
+        print("Enter your subject (1-7) :")
+        choice = input(">")
+        if not choice.isdecimal:
+            print("Enter number please")
+        else:
+            break
     return choice
 
 def pull_data(filename):
