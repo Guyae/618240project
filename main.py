@@ -1,3 +1,5 @@
+import csv
+
 def main(): 
     choice = welcome()
     if choice == 1:
@@ -13,11 +15,12 @@ def main():
     elif choice == 6:
         filename = "GPA.csv"
     
-    ask_pull_add = input("Do you want to pull/add : ").lower
+    print("Do you want to pull/add : ")
+    ask_pull_add = input(">").lower
     if ask_pull_add == 'pull':
         pull_data(filename)
     elif ask_pull_add == 'add':
-        added_data(filename)
+        add_data(filename)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
@@ -29,20 +32,21 @@ def welcome():
                 5. 618250-165 DIGITAL CIRCUITS AND LOGIC DESIGN
                 6. GPA
                 7. Quit''')
-    print("Enter your subject (1-7)")
-    while True:
-        choice = input(">")
-        if choice.isdecimal() == False:
-            print("Please enter number")
-        else:
-            break
+    
+    choice = int(input("Enter your subject (1-7)" :))
     return choice
 
 def pull_data(filename):
     pass
 
-def added_data(filename):
-    pass
+def add_data(filename):
+    data_list = []
+    with open(filename, 'r+') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        for i in csv_reader:
+            if i != []:
+                data_list.append(i)
+        print(data_list)
 
 def sort_data():
     pass
@@ -55,5 +59,4 @@ def check_grade():
 
 if __name__ == '__main__':
     main()
-    
     
