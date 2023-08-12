@@ -14,9 +14,6 @@ def welcome():
     choice = int(input("Enter your subject :"))
     return choice
 
-def ask_pull_or_add():
-    pass
-
 def pull_data():
     pass
 
