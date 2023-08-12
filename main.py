@@ -61,5 +61,5 @@ def check_grade():
 
 if __name__ == '__main__':
     main()
-    add_data('test.csv')
+    
     
