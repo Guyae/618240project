@@ -1,29 +1,29 @@
 import csv
 
 def main(): 
-    filename = ""
+    file_name = ""
     choice = welcome()
     print(choice)
     if choice == 1:
-        filename = "test.csv"
+        file_name = "test.csv"
     elif choice == 2:
-        filename = "618214.csv"
+        file_name = "618214.csv"
     elif choice == 3:
-        filename = "618222.csv"
+        file_name = "618222.csv"
     elif choice == 4:
-        filename = "618224.csv"
+        file_name = "618224.csv"
     elif choice == 5:
-        filename = "618250.csv"
+        file_name = "618250.csv"
     elif choice == 6:
-        filename = "GPA.csv"
+        file_name = "GPA.csv"
     
     print("Do you want to pull/add : ")
     ask_pull_add = input(">").lower
-    add_data(filename)
+    print(file_name)
     if ask_pull_add == 'pull':
-        pull_data(filename)
+        pull_data(file_name)
     elif ask_pull_add == 'add':
-        add_data(filename)
+        add_data(file_name)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
@@ -44,11 +44,17 @@ def welcome():
             break  # Exit the loop once a valid number is entered.  
     return choice
 
-def pull_data(filename):
+def pull_data(file_name):
     pass
 
-def add_data(filename):
-    print("Hello")
+def add_data(file_name):
+    data_list = []
+    with open(file_name, 'r+') as csvfile:
+        csv_reader = csv.reader(csvfile)
+        for i in csv_reader:
+            if i != []:
+                data_list.append(i)
+        print(data_list)
 
 def sort_data():
     pass
