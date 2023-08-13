@@ -16,7 +16,9 @@ def main():
     elif choice == '6':
         file_name = "GPA.csv"
     
+    # Ask user that what user want to pull or add data 
     while True:
+        print()
         print("Do you want to pull/add")
         ask_pull_add = input(">").lower()
         if ask_pull_add == 'add' or ask_pull_add == 'pull':
@@ -28,15 +30,25 @@ def main():
     if ask_pull_add == 'pull':
         pull_data(file_name)
     elif ask_pull_add == 'add':
-        add_data(file_name)
+        while True:
+            print('''Do you want to add new data or edit data?  
+                  1. Add new data
+                  2. Edit data''')
+            add_edit = input('>')
+            if add_edit == '1' or add_edit == '2':
+                break
+            else:
+                print()
+                print('--- Please enter add or edit ---')
+        add_data(file_name, add_edit)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
                 Choose subject :
-                1. 618240-165 DATA STRUCTURES AND ALGORITHMS
-                2. 618214-165 ELECTRICAL ENGINEERING MATHEMATICS II
-                3. 618222-165 ELECTRIC CIRCUIT ANALYSIS
-                4. 618224-165 ELECTRONIC DEVICES AND CIRCUIT DESIGN
+                1. 618214-165 ELECTRICAL ENGINEERING MATHEMATICS II
+                2. 618222-165 ELECTRIC CIRCUIT ANALYSIS
+                3. 618224-165 ELECTRONIC DEVICES AND CIRCUIT DESIGN
+                4. 618240-165 DATA STRUCTURES AND ALGORITHMS
                 5. 618250-165 DIGITAL CIRCUITS AND LOGIC DESIGN
                 6. GPA
                 7. Quit''')
@@ -66,7 +78,7 @@ def pull_data(file_name):
     if data_list == []:
         gotoadd_data_or_not(file_name)
     else:
-        print('''How do yo want?
+        print('''Do you want to pull everyone's data or only some student?
         1.Everyone 
         2.Enter student ID ''')  
         choice = input(">")
@@ -93,23 +105,31 @@ def gotoadd_data_or_not(file_name):
         
             
                         
-def add_data(file_name):
+def add_data(file_name, add_or_edit):
     data_list = []
     with open(file_name, 'r+') as csvfile:
         csv_reader = csv.reader(csvfile)
+        csv_writer = csv.writer(csvfile)
+        Columns = next(csv_reader)
+        print(Columns)
         for i in csv_reader:
             if i != []:
                 data_list.append(i)
         print(data_list)
-
-    while True:
-        print('Do you want to add/edit data?')
-        add_edit = input('>')
-        if add_edit == 'add' or add_edit == 'edit':
-            break
-        else:
+    
+    if add_or_edit == '1':
+        while True:
             print()
-            print('--- Please enter add or edit ---')
+            print('''Enter your data :
+    Student ID | Q1 | Mid | Q2 | Final | Attendance | Total | Grade
+    or enter 'Quit' for close''')
+            enter_data = input('>').lower()
+
+            if enter_data == 'quit':
+                break
+        
+    elif add_or_edit == '2':
+        pass
 
 def sort_data():
     pass
