@@ -3,23 +3,28 @@ import csv
 def main(): 
     file_name = ""
     choice = welcome()
-    print(choice)
-    if choice == 1:
+    if choice == '1':
         file_name = "test.csv"
-    elif choice == 2:
+    elif choice == '2':
         file_name = "618214.csv"
-    elif choice == 3:
+    elif choice == '3':
         file_name = "618222.csv"
-    elif choice == 4:
+    elif choice == '4':
         file_name = "618224.csv"
-    elif choice == 5:
+    elif choice == '5':
         file_name = "618250.csv"
-    elif choice == 6:
+    elif choice == '6':
         file_name = "GPA.csv"
     
-    print("Do you want to pull/add : ")
-    ask_pull_add = input(">").lower
-    print(file_name)
+    while True:
+        print("Do you want to pull/add")
+        ask_pull_add = input(">").lower()
+        if ask_pull_add == 'add' or ask_pull_add == 'pull':
+            break
+        else:
+            print()
+            print("--- Please enter add or edit ---")
+            
     if ask_pull_add == 'pull':
         pull_data(file_name)
     elif ask_pull_add == 'add':
@@ -36,12 +41,18 @@ def welcome():
                 6. GPA
                 7. Quit''')
     while True:
+        number_list = [str(number+1) for number in range(7)]
         print('Enter your subject (1-7):')
         choice = input('> ')
-        if not choice.isdecimal():
-            print('Please enter a number.')
+        if choice.isdecimal():
+            if choice in number_list:
+                break
+            else:
+                print('--- Please enter number 1-7  ---')
+                print()
         else:
-            break  # Exit the loop once a valid number is entered.  
+            print('--- Please enter a number ---')
+            print()
     return choice
 
 def pull_data(file_name):
@@ -55,6 +66,15 @@ def add_data(file_name):
             if i != []:
                 data_list.append(i)
         print(data_list)
+
+    while True:
+        print('Do you want to add/edit data?')
+        add_edit = input('>')
+        if add_edit == 'add' or add_edit == 'edit':
+            break
+        else:
+            print()
+            print('--- Please enter add or edit ---')
 
 def sort_data():
     pass
