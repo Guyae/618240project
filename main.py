@@ -4,7 +4,7 @@ def main():
     file_name = ""
     choice = welcome()
     if choice == '1':
-        file_name = "test.csv"
+        file_name = "testt.csv"
     elif choice == '2':
         file_name = "618214.csv"
     elif choice == '3':
@@ -15,6 +15,8 @@ def main():
         file_name = "618250.csv"
     elif choice == '6':
         file_name = "GPA.csv"
+    else:
+        return
     
     # Ask user that what user want to pull or add data 
     while True:
@@ -107,38 +109,88 @@ def gotoadd_data_or_not(file_name):
                         
 def add_data(file_name, add_or_edit):
     data_list = []
-    with open(file_name, 'r+') as csvfile:
-        csv_reader = csv.reader(csvfile)
-        csv_writer = csv.writer(csvfile)
-        Columns = next(csv_reader)
-        print(Columns)
-        for i in csv_reader:
-            if i != []:
-                data_list.append(i)
-        print(data_list)
+    csvfile_w = open(file_name, 'w', newline='')
+    csv_writer = csv.writer(csvfile_w)
     
     if add_or_edit == '1':
         while True:
             print()
             print('''Enter your data :
-    Student ID | Q1 | Mid | Q2 | Final | Attendance | Total | Grade
+    Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
     or enter 'Quit' for close''')
             enter_data = input('>').lower()
-
-            if enter_data == 'quit':
+            if enter_data != 'quit':
+                enter_data_list = enter_data.split(' ')
+                calculate_score(enter_data_list)
+                #print(type(enter_data_list))
+                data_list.append(enter_data_list)
+            else:
                 break
+        
+        csv_writer.writerows(data_list)
+        csvfile_w.close()
+
+        with open(file_name, 'r') as csvfile_r:
+            csv_reader = csv.reader(csvfile_r)
+            Columns = next(csv_reader)
+            #print(Columns)
+            for i in csv_reader:
+                if i != []:
+                    data_list.append(i)
+            #print(data_list)
+            #sort_data()
         
     elif add_or_edit == '2':
         pass
 
 def sort_data():
+    # ฝากเอา merge sort มาใส่ที
     pass
 
-def calculate_score():
-    pass
+def calculate_score(add_data_list):
+    total = 0
+    for score in range(5):
+        total += int(add_data_list[score+1])
+    add_data_list[6] = total
+    add_data_list[7] = check_grade(total)
 
-def check_grade():
-    pass
+def check_grade(grade_or_score):
+    if str(grade_or_score).isalpha():
+        if grade_or_score == 'A':
+            return 4.00
+        elif grade_or_score == 'B+':
+            return 3.5
+        elif grade_or_score == 'B':
+            return 3.0
+        elif grade_or_score == 'C+':
+            return 2.5
+        elif grade_or_score == 'C':
+            return 2.0
+        elif grade_or_score == 'D+':
+            return 1.5
+        elif grade_or_score == 'D':
+            return 1.0
+        elif grade_or_score == 'F':
+            return 0.0
+        
+    elif str(grade_or_score).isnumeric:
+        if grade_or_score >= 80:
+            return 'A'
+        elif 75 <= grade_or_score < 80:
+            return 'B+'
+        elif 70 <= grade_or_score < 75:
+            return 'B'
+        elif 65 <= grade_or_score < 70:
+            return 'C+'
+        elif 60 <= grade_or_score < 65:
+            return 'C'
+        elif 55 <= grade_or_score < 60:
+            return 'D+'
+        elif 50 <= grade_or_score < 55:
+            return 'D'
+        elif grade_or_score < 50:
+            return 'F'
+        
 
 if __name__ == '__main__':
     main()
