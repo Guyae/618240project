@@ -64,7 +64,7 @@ def pull_data(file_name):
                 data_list.append(i)
                 pass
     if data_list == []:
-        gotoadd_data_or_not()
+        gotoadd_data_or_not(file_name)
     else:
         print('''How do yo want?
         1.Everyone 
@@ -81,13 +81,13 @@ def pull_data(file_name):
                     print(row)
                     found = 1
             if found ==0:
-                gotoadd_data_or_not()
+                gotoadd_data_or_not(file_name)
                 
             
-def gotoadd_data_or_not():
+def gotoadd_data_or_not(file_name):
     x=input("Do you want to add/edit data?:").lower()
     if x=="yes":
-        add_data()
+        add_data(file_name)
     elif x== "no":
         welcome()
         
