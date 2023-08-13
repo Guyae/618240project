@@ -56,8 +56,22 @@ def welcome():
     return choice
 
 def pull_data(file_name):
-    pass
-
+    with open(file_name, 'r') as csv_file:
+        data_list=[]
+        csv_reader = csv.reader(csv_file)
+        for i in csv_reader:
+              if i != []:
+                data_list.append(i)
+                pass
+    print('''How do yo want
+    1.Everyone 
+    2.Enter student ID ''')  
+    choice = input(">")
+    if choice == "1":
+            for row in data_list:
+                print(row)
+          
+            
 def add_data(file_name):
     data_list = []
     with open(file_name, 'r+') as csvfile:
