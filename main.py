@@ -63,15 +63,36 @@ def pull_data(file_name):
               if i != []:
                 data_list.append(i)
                 pass
-    print('''How do yo want
-    1.Everyone 
-    2.Enter student ID ''')  
-    choice = input(">")
-    if choice == "1":
+    if data_list == []:
+        gotoadd_data_or_not()
+    else:
+        print('''How do yo want?
+        1.Everyone 
+        2.Enter student ID ''')  
+        choice = input(">")
+        if choice == "1":
+                for row in data_list:
+                    print(row)
+        elif choice == "2":
+            student_id = input("Enter student ID: ")
+            found = 0
             for row in data_list:
-                print(row)
-          
+                if row[0] == student_id:
+                    print(row)
+                    found = 1
+            if found ==0:
+                gotoadd_data_or_not()
+                
             
+def gotoadd_data_or_not():
+    x=input("Do you want to add/edit data?:").lower()
+    if x=="yes":
+        add_data()
+    elif x== "no":
+        welcome()
+        
+            
+                        
 def add_data(file_name):
     data_list = []
     with open(file_name, 'r+') as csvfile:
