@@ -91,7 +91,7 @@ def pull_data(file_name):
             student_id = input("Enter student ID: ")
             found = 0
             for row in data_list:
-                if row[1] == student_id:
+                if row[0] == student_id:
                     print(row)
                     found = 1
             if found ==0:
