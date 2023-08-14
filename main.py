@@ -4,7 +4,7 @@ def main():
     file_name = ""
     choice = welcome()
     if choice == '1':
-        file_name = "testt.csv"
+        file_name = "test.csv"
     elif choice == '2':
         file_name = "618214.csv"
     elif choice == '3':
@@ -32,17 +32,7 @@ def main():
     if ask_pull_add == 'pull':
         pull_data(file_name)
     elif ask_pull_add == 'add':
-        while True:
-            print('''Do you want to add new data or edit data?  
-                  1. Add new data
-                  2. Edit data''')
-            add_edit = input('>')
-            if add_edit == '1' or add_edit == '2':
-                break
-            else:
-                print()
-                print('--- Please enter add or edit ---')
-        add_data(file_name, add_edit)
+        add_data(file_name)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
@@ -96,52 +86,53 @@ def pull_data(file_name):
                     found = 1
             if found ==0:
                 gotoadd_data_or_not(file_name)
-                
-            
+                     
 def gotoadd_data_or_not(file_name):
     x=input("Do you want to add/edit data?:").lower()
     if x=="yes":
         add_data(file_name)
     elif x== "no":
-        welcome()
-        
-            
+        welcome()            
                         
-def add_data(file_name, add_or_edit):
+def add_data(file_name):
     data_list = []
-    csvfile_w = open(file_name, 'w', newline='')
-    csv_writer = csv.writer(csvfile_w)
-    
-    if add_or_edit == '1':
-        while True:
-            print()
-            print('''Enter your data :
-    Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
-    or enter 'Quit' for close''')
-            enter_data = input('>').lower()
-            if enter_data != 'quit':
-                enter_data_list = enter_data.split(' ')
-                calculate_score(enter_data_list)
-                #print(type(enter_data_list))
-                data_list.append(enter_data_list)
-            else:
-                break
-        
-        csv_writer.writerows(data_list)
-        csvfile_w.close()
+    with open(file_name, 'r') as csvfile_r:
+        csv_reader = csv.reader(csvfile_r)
+        Columns = next(csv_reader)
+        #print(Columns)
+        for i in csv_reader:
+            if i != []:
+                data_list.append(i)
 
-        with open(file_name, 'r') as csvfile_r:
-            csv_reader = csv.reader(csvfile_r)
-            Columns = next(csv_reader)
-            #print(Columns)
-            for i in csv_reader:
-                if i != []:
-                    data_list.append(i)
-            #print(data_list)
-            #sort_data()
-        
-    elif add_or_edit == '2':
-        pass
+        print(data_list)
+    
+    while True:
+        print()
+        print('''Enter your data :
+Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
+or enter 'Quit' for close''')
+        enter_data = input('>').lower()
+        if enter_data != 'quit':
+            enter_data_list = enter_data.split(' ')
+            for search in range(len(data_list)):
+                if enter_data_list[0] == data_list[search][0]:
+                    data_list[search] = enter_data_list
+                    calculate_score(data_list[search])
+                    print(data_list[search])
+                    break
+                else:
+                    calculate_score(enter_data_list)
+                    data_list.append(enter_data_list)
+                    break
+        else:
+            break
+
+        print(data_list)
+
+    with open(file_name, 'w', newline='') as csvfile_w:
+        csv_writer = csv.writer(csvfile_w)
+        csv_writer.writerow(list(Columns))
+        csv_writer.writerows(data_list)
 
 def sort_data():
     # ฝากเอา merge sort มาใส่ที
