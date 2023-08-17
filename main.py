@@ -181,7 +181,7 @@ or enter 'Quit' for close''')
         if enter_data != 'quit':
             enter_data_list = enter_data.split(' ')
             Data.search(enter_data)
-            '''for search in range(len(data_list)):
+            for search in range(len(data_list)):
                 if enter_data_list[0] == data_list[search][0]:
                     data_list[search] = enter_data_list
                     calculate_score(data_list[search])
@@ -252,5 +252,5 @@ def check_grade(grade_or_score):
 
 if __name__ == '__main__':
     main()
-
+ #
     
