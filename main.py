@@ -19,14 +19,41 @@ class LinkedList():
             self._tail= new_node
             self._head = new_node
         else:
-            print(self._head,'',self._head.next)
-            print(self._tail,'',self._tail.next)
             self._tail.next = new_node
-            print(self._head,'',self._head.next)
-            print(self._tail,'',self._tail.next)
             self._tail = self._tail.next
-            print(self._head,'',self._head.next)
-            print(self._tail,'',self._tail.next)
+
+    def search(self,input_data):
+        curr = self._head
+        while curr != None:
+            if input_data[0] == curr[0]:
+                curr = input_data
+                calculate_score(curr)
+                print(curr)
+                break
+            else:
+                for_merge = []
+                curr = self._head
+                calculate_score(input_data)
+                self.insertAtTail(curr)
+                while curr != None:
+                    for_merge.append(curr)
+                merge_sort(for_merge)
+                self._head = None
+                self._tail = None
+                for data in for_merge:
+                    if data != []:
+                        self.insertAtTail(data)  
+                break
+
+    def __str__(self):
+        curr = self._head
+        i = 1
+        s = ""
+        while curr != None:
+            s = s + "node : " + str(i) + " " + str(curr) + "\n"
+            curr = curr.next
+            i += 1
+        return(s)
 
 def main(): 
     file_name = ""
@@ -123,7 +150,6 @@ def gotoadd_data_or_not(file_name):
         welcome()            
                         
 def add_data(file_name):
-    data_list = []
     Grade = []
     degree = [3.0, 3.0, 3.0, 3.0, 3.0]
     sum_degree = 0
@@ -145,21 +171,23 @@ def add_data(file_name):
         csv_reader = csv.reader(csvfile_r)
         Columns = next(csv_reader)
         #print(Columns)
+        Data = LinkedList()
         for data in csv_reader:
             if data != []:
-                data_list.append(data)
+                Data.insertAtTail(data)   
 
-        print(data_list)
+        print(list(Data._head))     
     
-    while True:
-        print()
-        print('''Enter your data :
-Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
-or enter 'Quit' for close''')
-        enter_data = input('>').lower()
+    '''while True:
+        print()'''
+        #print('''Enter your data :
+#Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
+#or enter 'Quit' for close''')
+'''        enter_data = input('>').lower()
         if enter_data != 'quit':
             enter_data_list = enter_data.split(' ')
-            for search in range(len(data_list)):
+            Data.search(enter_data)'''
+'''            for search in range(len(data_list)):
                 if enter_data_list[0] == data_list[search][0]:
                     data_list[search] = enter_data_list
                     calculate_score(data_list[search])
@@ -169,13 +197,11 @@ or enter 'Quit' for close''')
                     calculate_score(enter_data_list)
                     data_list.append(enter_data_list)
                     merge_sort(data_list)
-                    break
-        else:
-            break
+                    break'''
+'''        else:
+            break'''
 
-        print(data_list)
-
-    with open(file_name, 'w', newline='') as csvfile_w:
+'''    with open(file_name, 'w', newline='') as csvfile_w:
         csv_writer = csv.writer(csvfile_w)
         csv_writer.writerow(list(Columns))
         csv_writer.writerows(data_list)
@@ -205,7 +231,7 @@ or enter 'Quit' for close''')
         csv_writer_grade = csv.writer(csvfile_w_grade)
         csv_writer_grade.writerow(list(Columns_grade))
         csv_writer_grade.writerows(Grade)
-
+'''
 def merge(A, p, q, r):
     # If A is a list, slicing creates a copy.
     #print(A)
