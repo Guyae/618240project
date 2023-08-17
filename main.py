@@ -1,71 +1,5 @@
 import csv
 
-class Node():
-    def __init__(self, datum):
-        self.data = datum
-        self.next = None
-   
-    def getData(self):
-        return self.data
-    
-    def __str__(self):
-        return str(self.data)
-    
-class LinkedList():
-    def __init__(self):
-        self._head = None
-        self._tail = None
-        self._size = 0
-    
-    def insertAtTail(self, datum):
-        new_node = Node(datum)
-        if self._tail == None:
-            self._tail= new_node
-            self._head = new_node
-        else:
-            self._tail.next = new_node
-            self._tail = self._tail.next
-  
-    def search (self, target) :
-        final_string = list(self.return_to_str())
-        #print(type(final_string))
-        for search in range(len(final_string)):
-            if target[0] == final_string[search][0]:
-                final_string[search] = target
-                calculate_score(final_string[search])
-                print(final_string[search])
-                break
-            else:
-                calculate_score(target)
-                final_string.append(target)
-                merge_sort(final_string)
-                break
-        return final_string
-  
-    def return_to_str(self):
-        final_string = ''
-        current_node = self._head
-        while current_node != None :
-            final_string += str(current_node.data)
-            current_node = current_node.next
-        return final_string
-   
-    def delete_node (self, target) :
-        current_node = self._head
-        while current_node != None :
-            if current_node.next.data == target :
-                current_node.next = current_node.next.next
-  
-    def __str__(self):
-        curr = self._head
-        i = 1
-        s = ""
-        while curr != None:
-            s = s + "node : " + str(i) + " " + str(curr) + "\n"
-            curr = curr.next
-            i += 1
-        return(s)
-
 def main(): 
     file_name = ""
     choice = welcome()
@@ -169,8 +103,6 @@ def add_data(file_name):
         for i in csv_reader:
             if i != []:
                 data_list.append(i)
-
-        print(Data)
     
     while True:
         print()
@@ -180,7 +112,6 @@ or enter 'Quit' for close''')
         enter_data = input('>').lower()
         if enter_data != 'quit':
             enter_data_list = enter_data.split(' ')
-            Data.search(enter_data)
             for search in range(len(data_list)):
                 if enter_data_list[0] == data_list[search][0]:
                     data_list[search] = enter_data_list
