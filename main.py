@@ -1,5 +1,33 @@
 import csv
 
+class Node():
+    def __init__(self, datum):
+        self.data = datum
+        self.next = None
+    def getData(self):
+        return self.data
+    def __str__(self):
+        return str(self.data)
+class LinkedList():
+    def __init__(self):
+        self._head = None
+        self._tail = None
+        self._size = 0
+    def insertAtTail(self, datum):
+        new_node = Node(datum)
+        if self._tail == None:
+            self._tail= new_node
+            self._head = new_node
+        else:
+            print(self._head,'',self._head.next)
+            print(self._tail,'',self._tail.next)
+            self._tail.next = new_node
+            print(self._head,'',self._head.next)
+            print(self._tail,'',self._tail.next)
+            self._tail = self._tail.next
+            print(self._head,'',self._head.next)
+            print(self._tail,'',self._tail.next)
+
 def main(): 
     file_name = ""
     choice = welcome()
