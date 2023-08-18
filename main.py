@@ -27,7 +27,7 @@ def main():
             break
         else:
             print()
-            print("--- Please enter add or edit ---")
+            print("--- Please enter 'ADD' or 'EDIT' ---")
             
     if ask_pull_add == 'pull':
         pull_data(file_name)
@@ -93,7 +93,10 @@ def gotoadd_data_or_not(file_name):
         add_data(file_name)
     elif x== "no":
         welcome()            
-                        
+
+def check_isnumberic(string):
+    return str(string).isnumeric
+
 def add_data(file_name):
     data_list = []
     Grade = []
@@ -130,9 +133,12 @@ Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
 or enter 'Quit' for close''')
         enter_data = input('>').lower()
         if enter_data != 'quit':
+            count_index = 0
             enter_data_list = enter_data.split(' ')
             print(enter_data_list)
             print(len(data))
+            '''for index in enter_data_list:
+                count_index += 1'''
             for search in range(len(data_list)):
                 if enter_data_list[0] == data_list[search][0]:
                     data_list[search] = enter_data_list
@@ -140,13 +146,17 @@ or enter 'Quit' for close''')
                     print(data_list[search])
                     break
                 elif search == (len(data_list)-1):
-                    calculate_score(enter_data_list)
-                    data_list.append(enter_data_list)
-                    merge_sort(data_list)
-                    print(data_list)
-                    break
+                    for index in range(len(data_list[search])):
+                        if calculate_score(enter_data_list):
+                            data_list.append(enter_data_list)
+                            merge_sort(data_list)
+                            print(data_list)
+                            break
+                        else:
+                            break
                 else:
                     continue
+
         else:
             break
 
@@ -164,32 +174,37 @@ or enter 'Quit' for close''')
             if grade != []:
                 Grade.append(grade)
 
-        '''for unknown in data_list:
+        for unknown in data_list:       # เอารหัส นศ ใน data_list ไปเช็คใน Grade ว่ามีรหัสนี้ยัง ถ้ายังใส่เข้าไปใน Grade แล้วได้คำนวณ GPA ต่อ
             find = 0
             for find_unknown_in_grade in Grade:
-                if unknown != find_unknown_in_grade:
+                if unknown[0] != find_unknown_in_grade[0]:  # ถ้าเช็คแล้วไม่เจอก็ผ่านไป
                     continue
                 else:
-                    find += 1
+                    find += 1       # ถ้าเจอก็จะให้ค่า find = 1 เพื่อบอกว่าเจอค่าแล้ว
                 
-            if find == 0:
-                Grade.append(unknown)'''
+            if find == 0:       # ถ้าไมเจอรหัสนั้นๆใน Grade ก็ใส่ไปใน Grade
+                for_contain = []
+                for_contain.append(unknown[0])
+                for index in range(1,7):
+                    for_contain.append('-')
+                Grade.append(for_contain)
                 
-
+    print(Grade)
+    print
+    print(data_list)
             
-
     for grades in range(len(Grade)):
-        Grade[grades][subject] = check_grade(data_list[grades][7])
+        sum_degree = 0              # กำหนด sum_degree ไว้รับค่าผลรวมของหน่วยกิตที่นำมาคำนวณ สมมติในตารางมี 4 วิชาก็จะใช้ หน่วยกิต 4 วิชา
+        degree_product_grade  = 0   # กำหนดค่า degree_product_grade ไว้รับค่าเกรดที่ได้ * หน่วยกิตวิชานั้นๆ
+        Grade[grades][subject] = data_list[grades][7]   # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
+        print(Grade)
         for calculate in range(1,6):
-            set_degree_product_grade = degree_product_grade             # กำหนดค่าไว้รับผลรวมของ เกรด*หน่วยกิต
-            number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข
+            number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข   
             print(number_grade)
-            print(type(number_grade))          
             degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
-            if set_degree_product_grade != degree_product_grade:        # ถ้าค่าที่ไว้รับผลรวมของ เกรด*หน่วยกิต ไม่เท่ากับเกรด*หน่วยกิต
+            if Grade[grades][calculate] != '-':        # ถ้าเกรดที่นำเข้ามา ไม่ใช่ '-' sum_degree หรือผลรวมหน่วยกิต จะบวกหน่วยกิตวิชานั้นๆ
                 sum_degree += degree[calculate-1]
-        GPA = degree_product_grade/sum_degree
-        degree_product_grade = 0
+        GPA = degree_product_grade/sum_degree   # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
         Grade[grades][6] = GPA
 
     print(Grade)
@@ -245,13 +260,22 @@ def merge_sort(A, p=0, r=None):
 
 def calculate_score(add_data_list):
     total = 0
-    for score in range(5):
-        total += int(add_data_list[score+1])
-    add_data_list[6] = total
-    add_data_list[7] = check_grade(total)
+    try:
+        for score in range(5):
+            total += int(add_data_list[score+1])
+        add_data_list[6] = total
+        add_data_list[7] = check_grade(total)
+    except IndexError:
+        print("--- Please enter whole data ---")
+        return False
+    except ValueError:
+        print("--- Please enter follow our from data ---")
+        return False
+    else:
+        return True
 
 def check_grade(grade_or_score):
-    if str(grade_or_score).isalpha() or grade_or_score == '-':
+    if str(grade_or_score).isprintable():
         if grade_or_score == 'A':
             return 4.0
         elif grade_or_score == 'B+':
@@ -269,7 +293,7 @@ def check_grade(grade_or_score):
         elif grade_or_score == 'F' or grade_or_score == '-':
             return 0.0
         
-    elif str(grade_or_score).isnumeric():
+    if str(grade_or_score).isnumeric():
         if int(grade_or_score) >= 80:
             return 'A'
         elif 75 <= int(grade_or_score) < 80:
