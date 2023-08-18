@@ -132,11 +132,11 @@ def add_data(file_name):
 Student ID | Q1 | Mid | Q2 | Final | Attendance | Total = '-' | Grade = '-'
 or enter 'Quit' for close''')
         enter_data = input('>').lower()
-        if enter_data != 'quit':        # เช็คว่า enter_data ไม่เท่ากับ 'quit' ใช่มั้ย
+        if enter_data != 'quit':                                # เช็คว่า enter_data ไม่เท่ากับ 'quit' ใช่มั้ย
             enter_data_list = enter_data.split(' ')
             print(enter_data_list)
             print(len(data))
-            for search in range(len(data_list)):    # วนรหัส นศ 
+            for search in range(len(data_list)):                # วนรหัส นศ 
                 if enter_data_list[0] == data_list[search][0]:  # วนรหัส นศ ว่ามีรหัสนั้นอยู่แล้วมั้ย
                     data_list[search] = enter_data_list         # ถ้ามีอยู่แล้ว ให้ข้อมูลที่เจอ = ข้อมูลใหม่
                     calculate_score(data_list[search])          # เสร็จแล้วคำนวณเกรด
@@ -179,12 +179,12 @@ or enter 'Quit' for close''')
                 else:
                     find += 1                               # ถ้าเจอก็จะให้ค่า find = 1 เพื่อบอกว่าเจอค่าแล้ว
                 
-            if find == 0:                       # ถ้าไมเจอรหัสนั้นๆใน Grade ก็ใส่ไปใน Grade
-                for_contain = []                # กำหนด for_contain มารับค่า
-                for_contain.append(unknown[0])  # นำรหัส นศ ไปใส่ใน for_contain
+            if find == 0:                                   # ถ้าไมเจอรหัสนั้นๆใน Grade ก็ใส่ไปใน Grade
+                for_contain = []                            # กำหนด for_contain มารับค่า
+                for_contain.append(unknown[0])              # นำรหัส นศ ไปใส่ใน for_contain
                 for index in range(1,7):        
-                    for_contain.append('-')     # นำ '-' ใส่เข้าไป 6 รอบ
-                Grade.append(for_contain)       # ได้ค่า for_contain ที่สมบูรณ์ จึงนำไปใส่ใน Grade
+                    for_contain.append('-')                 # นำ '-' ใส่เข้าไป 6 รอบ
+                Grade.append(for_contain)                   # ได้ค่า for_contain ที่สมบูรณ์ จึงนำไปใส่ใน Grade
                 
     print(Grade)
     print
