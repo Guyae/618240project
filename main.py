@@ -96,13 +96,32 @@ def gotoadd_data_or_not(file_name):
                         
 def add_data(file_name):
     data_list = []
+    Grade = []
+    degree = [3.0, 3.0, 3.0, 3.0, 3.0]
+    sum_degree = 0
+    subject = 0
+    degree_product_grade = 0
+    GPA = 0
+    if file_name == "test.csv":
+        subject = 1
+    elif file_name == "618214.csv":
+        subject = 2
+    elif file_name == "618222.csv":
+        subject = 3
+    elif file_name == "618224.csv":
+        subject = 4
+    elif file_name == "618250.csv":
+        subject = 5
+
     with open(file_name, 'r') as csvfile_r:
         csv_reader = csv.reader(csvfile_r)
         Columns = next(csv_reader)
         #print(Columns)
-        for i in csv_reader:
-            if i != []:
-                data_list.append(i)
+        for data in csv_reader:
+            if data != []:
+                data_list.append(data)
+
+        print(data_list)
     
     while True:
         print()
@@ -112,16 +131,22 @@ or enter 'Quit' for close''')
         enter_data = input('>').lower()
         if enter_data != 'quit':
             enter_data_list = enter_data.split(' ')
+            print(enter_data_list)
+            print(len(data))
             for search in range(len(data_list)):
                 if enter_data_list[0] == data_list[search][0]:
                     data_list[search] = enter_data_list
                     calculate_score(data_list[search])
                     print(data_list[search])
                     break
-                else:
+                elif search == (len(data_list)-1):
                     calculate_score(enter_data_list)
                     data_list.append(enter_data_list)
+                    merge_sort(data_list)
+                    print(data_list)
                     break
+                else:
+                    continue
         else:
             break
 
@@ -132,9 +157,75 @@ or enter 'Quit' for close''')
         csv_writer.writerow(list(Columns))
         csv_writer.writerows(data_list)
 
-def sort_data():
-    # ฝากเอา merge sort มาใส่ที
-    pass
+    with open('testt.csv', 'r') as csvfile_r_grade:
+        csv_reader_grade = csv.reader(csvfile_r_grade)
+        Columns_grade = next(csv_reader_grade)
+        for grade in csv_reader_grade:
+            if grade != []:
+                Grade.append(grade)
+
+    for grades in range(len(Grade)):
+        Grade[grades][subject] = check_grade(data_list[grades][7])
+        for calculate in range(1,6):
+            set_degree_product_grade = degree_product_grade             # กำหนดค่าไว้รับผลรวมของ เกรด*หน่วยกิต
+            number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข
+            degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
+            if set_degree_product_grade != degree_product_grade:        # ถ้าค่าที่ไว้รับผลรวมของ เกรด*หน่วยกิต ไม่เท่ากับเกรด*หน่วยกิต
+                sum_degree += degree[calculate-1]
+        GPA = degree_product_grade/sum_degree
+        degree_product_grade = 0
+        Grade[grades][6] = GPA
+
+    print(Grade)
+
+    with open('testt.csv', 'w', newline='') as csvfile_w_grade:
+        csv_writer_grade = csv.writer(csvfile_w_grade)
+        csv_writer_grade.writerow(list(Columns_grade))
+        csv_writer_grade.writerows(Grade)
+
+def merge(A, p, q, r):
+    # If A is a list, slicing creates a copy.
+    #print(A)
+    if type(A) is list:
+        left = A[p: q+1]
+        #print("Left : ",left)
+        right = A[q+1: r+1]
+        #print("Right : ",right)
+    # Otherwise a is a np.array, so create a copy with list().
+    else:
+        left = list(A[p: q+1])
+        right = list(A[q+1: r+1])
+
+    i = 0 # index into left sublist/subarray
+    j = 0 # index into right sublist/subarray
+    k = p # index into a[p: r+1]
+    # Combine the two sorted sublists
+    # by inserting into A
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            A[k] = left[i]
+            i += 1
+        else:
+            A[k] = right[j]
+            j += 1
+        #print(f"k: {k} A: {A}")
+        k += 1
+    # After going through the left or right sublist, copy the 
+    # remainder of the other to the end of the list/array.
+    if i < len(left): # copy remainder of left
+        A[k: r+1] = left[i:]
+    if j < len(right): # copy remainder of right
+        A[k: r+1] = right[j:]
+
+def merge_sort(A, p=0, r=None):
+    if r is None:
+        r = len(A) - 1
+    if p >= r:
+        return
+    q = (p+r)//2
+    merge_sort(A, p, q)
+    merge_sort(A, q+1, r)
+    merge(A, p, q, r)
 
 def calculate_score(add_data_list):
     total = 0
@@ -144,9 +235,9 @@ def calculate_score(add_data_list):
     add_data_list[7] = check_grade(total)
 
 def check_grade(grade_or_score):
-    if str(grade_or_score).isalpha():
+    if str(grade_or_score).isalpha() or grade_or_score == '-':
         if grade_or_score == 'A':
-            return 4.00
+            return 4.0
         elif grade_or_score == 'B+':
             return 3.5
         elif grade_or_score == 'B':
@@ -159,10 +250,10 @@ def check_grade(grade_or_score):
             return 1.5
         elif grade_or_score == 'D':
             return 1.0
-        elif grade_or_score == 'F':
+        elif grade_or_score == 'F' or grade_or_score == '-':
             return 0.0
         
-    elif str(grade_or_score).isnumeric:
+    elif str(grade_or_score).isnumeric():
         if grade_or_score >= 80:
             return 'A'
         elif 75 <= grade_or_score < 80:
@@ -179,6 +270,8 @@ def check_grade(grade_or_score):
             return 'D'
         elif grade_or_score < 50:
             return 'F'
+    else:
+        return grade_or_score
         
 
 if __name__ == '__main__':
