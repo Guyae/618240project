@@ -164,11 +164,27 @@ or enter 'Quit' for close''')
             if grade != []:
                 Grade.append(grade)
 
+        '''for unknown in data_list:
+            find = 0
+            for find_unknown_in_grade in Grade:
+                if unknown != find_unknown_in_grade:
+                    continue
+                else:
+                    find += 1
+                
+            if find == 0:
+                Grade.append(unknown)'''
+                
+
+            
+
     for grades in range(len(Grade)):
         Grade[grades][subject] = check_grade(data_list[grades][7])
         for calculate in range(1,6):
             set_degree_product_grade = degree_product_grade             # กำหนดค่าไว้รับผลรวมของ เกรด*หน่วยกิต
             number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข
+            print(number_grade)
+            print(type(number_grade))          
             degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
             if set_degree_product_grade != degree_product_grade:        # ถ้าค่าที่ไว้รับผลรวมของ เกรด*หน่วยกิต ไม่เท่ากับเกรด*หน่วยกิต
                 sum_degree += degree[calculate-1]
@@ -231,7 +247,7 @@ def calculate_score(add_data_list):
     total = 0
     for score in range(5):
         total += int(add_data_list[score+1])
-    add_data_list[6] = str(total)
+    add_data_list[6] = total
     add_data_list[7] = check_grade(total)
 
 def check_grade(grade_or_score):
@@ -254,21 +270,21 @@ def check_grade(grade_or_score):
             return 0.0
         
     elif str(grade_or_score).isnumeric():
-        if grade_or_score >= 80:
+        if int(grade_or_score) >= 80:
             return 'A'
-        elif 75 <= grade_or_score < 80:
+        elif 75 <= int(grade_or_score) < 80:
             return 'B+'
-        elif 70 <= grade_or_score < 75:
+        elif 70 <= int(grade_or_score) < 75:
             return 'B'
-        elif 65 <= grade_or_score < 70:
+        elif 65 <= int(grade_or_score) < 70:
             return 'C+'
-        elif 60 <= grade_or_score < 65:
+        elif 60 <= int(grade_or_score) < 65:
             return 'C'
-        elif 55 <= grade_or_score < 60:
+        elif 55 <= int(grade_or_score) < 60:
             return 'D+'
-        elif 50 <= grade_or_score < 55:
+        elif 50 <= int(grade_or_score) < 55:
             return 'D'
-        elif grade_or_score < 50:
+        elif int(grade_or_score) < 50:
             return 'F'
     else:
         return grade_or_score
