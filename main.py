@@ -101,6 +101,8 @@ def check_isnumberic(string):
     return str(string).isnumeric    # เช็คว่าค่าที่รับมาเป็นตัวเลขหรือป่าว
 
 def add_data(file_name):
+    Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade']
+    # กำหนด  Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade'] เพื่อเป็น Columns
     data_list = []                                              # กำหนด data_list เพื่อรับค่าข้อมูลในไฟล์ชื่อ file_name ( ชื่อวิชานั้นๆ )
     Grade = []                                                  # กำหนด Grade เพื่อรับค่าข้อมูลในไฟล์ GPA.csv 
     degree = [3.0, 3.0, 3.0, 3.0, 3.0]                          # กำหนด degree เพื่อกำหนดหน่วยกิตของวิชานั้นๆ โดยต้องกรอกเรียงวิชาตามหน้าที่เราเลทอกวิชา
@@ -121,12 +123,20 @@ def add_data(file_name):
 
     with open(file_name, 'r') as csvfile_r:                     # กำหนด csvfile_r เป็น open(file_name, 'r')
         csv_reader = csv.reader(csvfile_r)                      # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
-        Columns = next(csv_reader)                              # กำหนด Columns เก็บค่าของหัวตารางไว้
-        #print(Columns)
+        try:
+            Columns = next(csv_reader)                          # กำหนด Columns เก็บค่าของหัวตารางไว้ แล้วเช็คว่า error หรือป่าว
+        except StopIteration:   
+            pass                                                # ถ้าเกิด StopIteration จะผ่านไปเลย
+        if Columns == ['๏ปฟ']:                                 # ถ้า Columns == ['๏ปฟ'] => จะเกิดในกรณีไม่มีข้อมูลในไฟล์ที่สร้างขึ้นมาจาก excel
+            Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade']
+            # กำหนด  Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade'] ใหม่อีกครั้ง
+        
         for data in csv_reader:                                 # วนข้อมูลใน csv_reader ที่อ่านค่ามา
             if data != []:                                      # เช็คว่า data != [] ใช่มั้ย
                 calculate_score(data)                           # คำนวณเกรดที่มีคะแนนอยู่แล้ว
                 data_list.append(data)                          # ถ้าใช่ เอา data ใส่เข้าใน data_list   
+            else:
+                pass
 
         print(data_list)
     
@@ -209,7 +219,11 @@ or enter 'Quit' for close''')
     for grades in range(len(Grade)):
         sum_degree = 0                                                  # กำหนด sum_degree ไว้รับค่าผลรวมของหน่วยกิตที่นำมาคำนวณ สมมติในตารางมี 4 วิชาก็จะใช้ หน่วยกิต 4 วิชา
         degree_product_grade  = 0                                       # กำหนดค่า degree_product_grade ไว้รับค่าเกรดที่ได้ * หน่วยกิตวิชานั้นๆ
-        Grade[grades][subject] = data_list[grades][7]                   # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
+        try:
+            Grade[grades][subject] = data_list[grades][7]               # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
+        except IndexError:
+            print("--- There is no data in this file ---")              # ถ้า IndexError จะแจ้งว่าไม่มีข้อมูลในไฟล์
+            break
         for calculate in range(1,6):
             number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข   
             degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
