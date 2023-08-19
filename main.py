@@ -1,41 +1,42 @@
 import csv
 
 def main(): 
-    file_name = ""
-    choice = welcome()
-    if choice == '1':
-        file_name = "618214.csv"
-    elif choice == '2':
-        file_name = "618222.csv"
-    elif choice == '3':
-        file_name = "618224.csv"
-    elif choice == '4':
-        file_name = "618240.csv"
-    elif choice == '5':
-        file_name = "618250.csv"
-    elif choice == '6':
-        file_name = "GPA.csv"
-    else:
-        return
-    
-    # Ask user that what user want to pull or add data 
-    if file_name != "GPA.csv":
-        while True:
-            print()
-            print("Do you want to pull/add")
-            ask_pull_add = input(">").lower()
-            if ask_pull_add == 'add' or ask_pull_add == 'pull':
-                break
-            else:
+    while True:
+        file_name = ""
+        choice = welcome()
+        if choice == '1':
+            file_name = "618214.csv"
+        elif choice == '2':
+            file_name = "618222.csv"
+        elif choice == '3':
+            file_name = "618224.csv"
+        elif choice == '4':
+            file_name = "618240.csv"
+        elif choice == '5':
+            file_name = "618250.csv"
+        elif choice == '6':
+            file_name = "GPA.csv"
+        else:
+            return
+        
+        # Ask user that what user want to pull or add data 
+        if file_name != "GPA.csv":
+            while True:
                 print()
-                print("--- Please enter 'ADD' or 'EDIT' ---")
-                
-        if ask_pull_add == 'pull':
+                print("Do you want to pull/add")
+                ask_pull_add = input(">").lower()
+                if ask_pull_add == 'add' or ask_pull_add == 'pull':
+                    break
+                else:
+                    print()
+                    print("--- Please enter 'ADD' or 'EDIT' ---")
+                    
+            if ask_pull_add == 'pull':
+                pull_data(file_name)
+            elif ask_pull_add == 'add':
+                add_data(file_name)
+        else:
             pull_data(file_name)
-        elif ask_pull_add == 'add':
-            add_data(file_name)
-    else:
-        pull_data(file_name)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
