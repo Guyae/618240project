@@ -19,20 +19,23 @@ def main():
         return
     
     # Ask user that what user want to pull or add data 
-    while True:
-        print()
-        print("Do you want to pull/add")
-        ask_pull_add = input(">").lower()
-        if ask_pull_add == 'add' or ask_pull_add == 'pull':
-            break
-        else:
+    if file_name != "GPA.csv":
+        while True:
             print()
-            print("--- Please enter 'ADD' or 'EDIT' ---")
-            
-    if ask_pull_add == 'pull':
+            print("Do you want to pull/add")
+            ask_pull_add = input(">").lower()
+            if ask_pull_add == 'add' or ask_pull_add == 'pull':
+                break
+            else:
+                print()
+                print("--- Please enter 'ADD' or 'EDIT' ---")
+                
+        if ask_pull_add == 'pull':
+            pull_data(file_name)
+        elif ask_pull_add == 'add':
+            add_data(file_name)
+    else:
         pull_data(file_name)
-    elif ask_pull_add == 'add':
-        add_data(file_name)
 
 def welcome():
     print('''-------------------- Calculate Grade Program --------------------
@@ -105,13 +108,13 @@ def add_data(file_name):
     subject = 0                                                 # กำหนด subject เพื่อรับค่าว่าวิชาไหนเลขอะไร
     degree_product_grade = 0                                    # กำหนด degree_product_grade เพื่อหาผลคูณระหว่างเกรดที่ได้กับหน่วยกิตวิชานั้นๆ
     GPA = 0                                                     # กำหนด GPA เพื่อรับค่า GPA ที่คำนวณได้ แล้วนำไปใส่ใน Grade ต่อไป
-    if file_name == "test.csv":
+    if file_name == "618214.csv":
         subject = 1
-    elif file_name == "618214.csv":
-        subject = 2
     elif file_name == "618222.csv":
-        subject = 3
+        subject = 2
     elif file_name == "618224.csv":
+        subject = 3
+    elif file_name == "618240.csv":
         subject = 4
     elif file_name == "618250.csv":
         subject = 5
@@ -122,6 +125,7 @@ def add_data(file_name):
         #print(Columns)
         for data in csv_reader:                                 # วนข้อมูลใน csv_reader ที่อ่านค่ามา
             if data != []:                                      # เช็คว่า data != [] ใช่มั้ย
+                calculate_score(data)
                 data_list.append(data)                          # ถ้าใช่ เอา data ใส่เข้าใน data_list   
 
         print(data_list)
@@ -157,7 +161,9 @@ or enter 'Quit' for close''')
         else:                                                   # ถ้าพิมพ์ 'quit' จะจบการกรอกข้อมูล
             break
 
-        print(data_list)
+    print(data_list)
+    print()
+    print()
 
     with open(file_name, 'w', newline='') as csvfile_w:     # กำหนด csvfile_w เป็น open(file_name, 'w', newline='')
         csv_writer = csv.writer(csvfile_w)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
@@ -173,7 +179,7 @@ or enter 'Quit' for close''')
         # จะเป็นการเขียนลงใน csv โดยการเอาข้อมูลจากใน list 1 ชุด แล้วมาแยกข้อมูล index ย่อย 
         # เช่น list_ = [[2,3],[4,5]] จะเอา list_[0] มาก่อนแล้วเขียนให้ครบ 1 บรรทัด => 2,3                     
 
-    with open('testt.csv', 'r') as csvfile_r_grade:
+    with open('GPA.csv', 'r') as csvfile_r_grade:
         csv_reader_grade = csv.reader(csvfile_r_grade)
         Columns_grade = next(csv_reader_grade)
         for grade in csv_reader_grade:
@@ -196,26 +202,30 @@ or enter 'Quit' for close''')
                 Grade.append(for_contain)                   # ได้ค่า for_contain ที่สมบูรณ์ จึงนำไปใส่ใน Grade
                 
     print(Grade)
-    print
+    print()
+    print()
     print(data_list)
             
     for grades in range(len(Grade)):
         sum_degree = 0                                                  # กำหนด sum_degree ไว้รับค่าผลรวมของหน่วยกิตที่นำมาคำนวณ สมมติในตารางมี 4 วิชาก็จะใช้ หน่วยกิต 4 วิชา
         degree_product_grade  = 0                                       # กำหนดค่า degree_product_grade ไว้รับค่าเกรดที่ได้ * หน่วยกิตวิชานั้นๆ
         Grade[grades][subject] = data_list[grades][7]                   # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
-        print(Grade)
         for calculate in range(1,6):
             number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข   
-            print(number_grade)
             degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
             if Grade[grades][calculate] != '-':                         # ถ้าเกรดที่นำเข้ามา ไม่ใช่ '-' sum_degree หรือผลรวมหน่วยกิต จะบวกหน่วยกิตวิชานั้นๆ
                 sum_degree += degree[calculate-1]
-        GPA = degree_product_grade/sum_degree                           # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
+        try:
+            GPA = degree_product_grade/sum_degree                           # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
+        except ZeroDivisionError:
+            GPA = 0
         Grade[grades][6] = GPA
 
+    print()
+    print()
     print(Grade)
 
-    with open('testt.csv', 'w', newline='') as csvfile_w_grade:         # กำหนด csvfile_w_grade เป็น open(file_name, 'w', newline='')
+    with open('GPA.csv', 'w', newline='') as csvfile_w_grade:         # กำหนด csvfile_w_grade เป็น open(file_name, 'w', newline='')
         csv_writer_grade = csv.writer(csvfile_w_grade)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
         csv_writer_grade.writerow(list(Columns_grade))                  # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลทุกตัวเขียนใน 1 บรรทัด
         csv_writer_grade.writerows(Grade)                               # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลแต่ละตัวเขียน 1 แถว
