@@ -337,8 +337,13 @@ def calculate_score(add_data_list):
     try:                                                     # เอาโค้ดที่ต้องการเช็คเข้าไปใน try 
         for score in range(5):
             total += int(add_data_list[score+1])            # บวกคะแนนรวม
-        add_data_list[6] = total                            
-        add_data_list[7] = check_grade(total)               # กำหนดให้ add_data_list[7] = check_grade(total) เข้าไปเช้คเกรด ว่าได้เกรดเท่าไหร่
+        if total <= 100:
+            add_data_list[6] = total                            
+            add_data_list[7] = check_grade(total)               # กำหนดให้ add_data_list[7] = check_grade(total) เข้าไปเช้คเกรด ว่าได้เกรดเท่าไหร่
+        else:
+            print()
+            print("--- You enter wrong score ---")
+            return False
     except IndexError:                                      
         print()
         print("--- Please enter whole data ---")            # ถ้าเราใส่ข้อมูลไม่ครบ จะขึ้นว่า "--- Please enter whole data ---"  
