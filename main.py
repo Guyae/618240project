@@ -98,7 +98,7 @@ def check_isnumberic(string):
     return str(string).isnumeric    # เช็คว่าค่าที่รับมาเป็นตัวเลขหรือป่าว
 
 def add_data(file_name):
-    data_list = []
+    data_list = []                                          
     Grade = []
     degree = [3.0, 3.0, 3.0, 3.0, 3.0]
     sum_degree = 0
@@ -116,13 +116,13 @@ def add_data(file_name):
     elif file_name == "618250.csv":
         subject = 5
 
-    with open(file_name, 'r') as csvfile_r:
-        csv_reader = csv.reader(csvfile_r)
-        Columns = next(csv_reader)
+    with open(file_name, 'r') as csvfile_r:                     # กำหนด csvfile_r เป็น open(file_name, 'r')
+        csv_reader = csv.reader(csvfile_r)                      # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
+        Columns = next(csv_reader)                              # กำหนด Columns เก็บค่าของหัวตารางไว้
         #print(Columns)
-        for data in csv_reader:
-            if data != []:
-                data_list.append(data)
+        for data in csv_reader:                                 # วนข้อมูลใน csv_reader ที่อ่านค่ามา
+            if data != []:                                      # เช็คว่า data != [] ใช่มั้ย
+                data_list.append(data)                          # ถ้าใช่ เอา data ใส่เข้าใน data_list   
 
         print(data_list)
     
@@ -138,7 +138,7 @@ or enter 'Quit' for close''')
             print(len(data))
             for search in range(len(data_list)):                # วนรหัส นศ 
                 if enter_data_list[0] == data_list[search][0]:  # วนรหัส นศ ว่ามีรหัสนั้นอยู่แล้วมั้ย
-                    data_list[search] = enter_data_list         # ถ้ามีอยู่แล้ว ให้ข้อมูลที่เจอ = ข้อมูลใหม่
+                    data_list[search] = enter_data_list         # ถ้ามีอยู่แล้ว ให้ข้อมูลที่เป็นรหัส นศ นั้นๆ = ข้อมูลใหม่
                     calculate_score(data_list[search])          # เสร็จแล้วคำนวณเกรด
                     print(data_list[search])
                     break                                       # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
@@ -154,18 +154,22 @@ or enter 'Quit' for close''')
                 else:
                     continue
 
-        else:
+        else:                                                   # ถ้าพิมพ์ 'quit' จะจบการกรอกข้อมูล
             break
 
         print(data_list)
 
     with open(file_name, 'w', newline='') as csvfile_w:     # กำหนด csvfile_w เป็น open(file_name, 'w', newline='')
-        csv_writer = csv.writer(csvfile_w)                  # กำหนดให้ csv_writer ที่รับค่ามาว่าจะเขียนลง csv
-        csv_writer.writerow(list(Columns))                  
+        csv_writer = csv.writer(csvfile_w)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
+        csv_writer.writerow(list(Columns))    
+        # เขียนใส่ไฟล์ชื่อ file_name
+        #              
         # จะเป็นการเขียนลงใน csv โดยการเอาข้อมูลทุกตัวมาเขียนใน 1 บรรทัด
         # เช่น Columns = ['Student ID','Q1','Mid','Q2','Final','Attendance','Total','Grade']
         # เอาข้อมูลทุกตัวมาเขียน 1 บรรทัด => Student ID,Q1,Mid,Q2,Final,Attendance,Total,Grade
         csv_writer.writerows(data_list)  
+        # เขียนใส่ไฟล์ชื่อ file_name
+        #   
         # จะเป็นการเขียนลงใน csv โดยการเอาข้อมูลจากใน list 1 ชุด แล้วมาแยกข้อมูล index ย่อย 
         # เช่น list_ = [[2,3],[4,5]] จะเอา list_[0] มาก่อนแล้วเขียนให้ครบ 1 บรรทัด => 2,3                     
 
@@ -211,10 +215,10 @@ or enter 'Quit' for close''')
 
     print(Grade)
 
-    with open('testt.csv', 'w', newline='') as csvfile_w_grade:
-        csv_writer_grade = csv.writer(csvfile_w_grade)
-        csv_writer_grade.writerow(list(Columns_grade))
-        csv_writer_grade.writerows(Grade)
+    with open('testt.csv', 'w', newline='') as csvfile_w_grade:         # กำหนด csvfile_w_grade เป็น open(file_name, 'w', newline='')
+        csv_writer_grade = csv.writer(csvfile_w_grade)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
+        csv_writer_grade.writerow(list(Columns_grade))                  # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลทุกตัวเขียนใน 1 บรรทัด
+        csv_writer_grade.writerows(Grade)                               # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลแต่ละตัวเขียน 1 แถว
 
 def merge(A, p, q, r):
     # If A is a list, slicing creates a copy.
