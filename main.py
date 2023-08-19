@@ -334,15 +334,15 @@ def calculate_score(add_data_list):
     # เดี๋ยวมาเพิ่มเช้ค total ว่ามากกว่า 100 ป่าว เพื่อป้องกันการกรอกคะแนนเกิน
 
     total = 0
-    try:                                                     # เอาโค้ดที่ต้องการเช็คเข้าไปใน try 
+    try:                                                    # เอาโค้ดที่ต้องการเช็คเข้าไปใน try 
         for score in range(5):
             total += int(add_data_list[score+1])            # บวกคะแนนรวม
-        if total <= 100:
+        if total <= 100:                                    # เช็คว่าคะแนนรวมเกิน 100 คะแนนหรือไม่
             add_data_list[6] = total                            
-            add_data_list[7] = check_grade(total)               # กำหนดให้ add_data_list[7] = check_grade(total) เข้าไปเช้คเกรด ว่าได้เกรดเท่าไหร่
-        else:
+            add_data_list[7] = check_grade(total)           # กำหนดให้ add_data_list[7] = check_grade(total) เข้าไปเช้คเกรด ว่าได้เกรดเท่าไหร่
+        else:               
             print()
-            print("--- You enter wrong score ---")
+            print("--- You enter wrong score ---")          # ถ้าเกิน 100 คะแนน จะขึ้นว่า "--- You enter wrong score ---"
             return False
     except IndexError:                                      
         print()
