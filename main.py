@@ -3,8 +3,8 @@ import csv
 def main(): 
     while True:
         file_name = ""
-        choice = welcome()
-        if choice == '1':
+        choice = welcome()                      # เข้า welcome() เพื่อเริ่มหน้าเริ่มต้น และรับวิชาที่ต้องการเลือก
+        if choice == '1':                       # เช็คว่าวิชาที่รับเป็นวิชาไหน แล้วกำหนดให้ file_name คือชื่อวิชานั้นๆ
             file_name = "618214.csv"
         elif choice == '2':
             file_name = "618222.csv"
@@ -20,20 +20,20 @@ def main():
             return
         
         # Ask user that what user want to pull or add data 
-        if file_name != "GPA.csv":
-            while True:
+        if file_name != "GPA.csv":                                      # เช็คว่า file_name ไม่เป็น "GPA.csv" ใช่มั้ย
+            while True:                                                 # จะวนไปเรื่อยๆหากกรอกไม่่ถูกค้อง
                 print()
                 print("Do you want to pull/add")
                 ask_pull_add = input(">").lower()
-                if ask_pull_add == 'add' or ask_pull_add == 'pull':
+                if ask_pull_add == 'add' or ask_pull_add == 'pull':     # ถ้ากรอก 'add' หรือ 'pull' จะ ออกจากลูป
                     break
-                else:
+                else:                                                   # ถ้ากรอกเป็นอย่างอื่น จะขึ้นว่า "--- Please enter 'ADD' or 'EDIT' ---"
                     print()
                     print("--- Please enter 'ADD' or 'EDIT' ---")
                     
-            if ask_pull_add == 'pull':
+            if ask_pull_add == 'pull':                                  # ถ้าเป็น 'pull' จะเข้า pull_data()
                 pull_data(file_name)
-            elif ask_pull_add == 'add':
+            elif ask_pull_add == 'add':                                 # ถ้าเป็น 'add' จะเข้า add_data()
                 add_data(file_name)
         else:
             pull_data(file_name)
@@ -52,13 +52,13 @@ def welcome():
         number_list = [str(number+1) for number in range(7)]        # สร้าง number_list มาเก็บตัวเลข 1-7 คือจำนวนตัวเลือกข้อโปรแกรม
         print('Enter your subject (1-7):')
         choice = input('> ')
-        if choice.isdecimal():
-            if choice in number_list:
+        if choice.isdecimal():                                      # เช็คว่า choice เป็นตัวเลขหรือไม่
+            if choice in number_list:                               # เช็คว่า choice อยู่ใน number_list มั้ย
                 break
-            else:
+            else:                                                   # ถ้าไม่ใช่จะขึ้นว่า '--- Please enter number 1-7 ---'
                 print('--- Please enter number 1-7 ---')
                 print()
-        else:
+        else:                                                       # ถ้าไม่ใช่ choice ตัวเลข จะขึ้นว่า '--- Please enter a number ---'
             print('--- Please enter a number ---')
             print()
     return choice
@@ -357,7 +357,7 @@ def calculate_score(add_data_list):
 
 def check_grade(grade_or_score):
     if str(grade_or_score).isprintable():           # เช้คว่าค่าที่รับเข้ามาแล้วกำหนดให้เป็น str สามารถแสดงผลทางหน้าจอได้ป่าว
-        if grade_or_score == 'A':
+        if grade_or_score == 'A':                   # เช็คว่าได้เกรดอะไร แล้วแปลงออกมาเป็นตัวเลข
             return 4.0
         elif grade_or_score == 'B+':
             return 3.5
@@ -375,7 +375,7 @@ def check_grade(grade_or_score):
             return 0.0
         
     if str(grade_or_score).isnumeric():             # เช็คว่าค่าที่รับเข้ามาแล้วกำหนดให้เป็น str เป็นตัวเลขหรือไม่
-        if int(grade_or_score) >= 80:
+        if int(grade_or_score) >= 80:               # เช็คว่าได้เกรดอะไร แล้วแปลงออกมาเป็นตัวอักษร
             return 'A'
         elif 75 <= int(grade_or_score) < 80:
             return 'B+'
