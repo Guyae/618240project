@@ -159,10 +159,15 @@ or enter 'Quit' for close''')
 
         print(data_list)
 
-    with open(file_name, 'w', newline='') as csvfile_w:
-        csv_writer = csv.writer(csvfile_w)
-        csv_writer.writerow(list(Columns))
-        csv_writer.writerows(data_list)
+    with open(file_name, 'w', newline='') as csvfile_w:     # กำหนด csvfile_w เป็น open(file_name, 'w', newline='')
+        csv_writer = csv.writer(csvfile_w)                  # กำหนดให้ csv_writer ที่รับค่ามาว่าจะเขียนลง csv
+        csv_writer.writerow(list(Columns))                  
+        # จะเป็นการเขียนลงใน csv โดยการเอาข้อมูลทุกตัวมาเขียนใน 1 บรรทัด
+        # เช่น Columns = ['Student ID','Q1','Mid','Q2','Final','Attendance','Total','Grade']
+        # เอาข้อมูลทุกตัวมาเขียน 1 บรรทัด => Student ID,Q1,Mid,Q2,Final,Attendance,Total,Grade
+        csv_writer.writerows(data_list)  
+        # จะเป็นการเขียนลงใน csv โดยการเอาข้อมูลจากใน list 1 ชุด แล้วมาแยกข้อมูล index ย่อย 
+        # เช่น list_ = [[2,3],[4,5]] จะเอา list_[0] มาก่อนแล้วเขียนให้ครบ 1 บรรทัด => 2,3                     
 
     with open('testt.csv', 'r') as csvfile_r_grade:
         csv_reader_grade = csv.reader(csvfile_r_grade)
