@@ -49,7 +49,7 @@ def welcome():
                 6. GPA
                 7. Quit''')
     while True:
-        number_list = [str(number+1) for number in range(7)]
+        number_list = [str(number+1) for number in range(7)]        # สร้าง number_list มาเก็บตัวเลข 1-7 คือจำนวนตัวเลือกข้อโปรแกรม
         print('Enter your subject (1-7):')
         choice = input('> ')
         if choice.isdecimal():
@@ -149,7 +149,9 @@ def add_data(file_name):
     with open(file_name, 'r') as csvfile_r:                     # กำหนด csvfile_r เป็น open(file_name, 'r')
         csv_reader = csv.reader(csvfile_r)                      # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
         try:
-            Columns = next(csv_reader)                          # กำหนด Columns เก็บค่าของหัวตารางไว้ แล้วเช็คว่า error หรือป่าว
+            Columns = next(csv_reader)                          
+            # กำหนด Columns เก็บค่าของหัวตารางไว้ แล้วเช็คว่า error หรือป่าว           
+            # => จะเกิดในกรณีไม่มีข้อมูลในไฟล์ที่สร้างขึ้นมาจาก
         except StopIteration:   
             pass                                                # ถ้าเกิด StopIteration จะผ่านไปเลย
         if Columns == ['๏ปฟ']:                                 # ถ้า Columns == ['๏ปฟ'] => จะเกิดในกรณีไม่มีข้อมูลในไฟล์ที่สร้างขึ้นมาจาก excel
@@ -236,7 +238,7 @@ or enter 'Quit' for close''')
             if find == 0:                                   # ถ้าไมเจอรหัสนั้นๆใน Grade ก็ใส่ไปใน Grade
                 for_contain = []                            # กำหนด for_contain มารับค่า
                 for_contain.append(unknown[0])              # นำรหัส นศ ไปใส่ใน for_contain
-                for index in range(1,7):        
+                for index in range(1,7):                    # range(1,7) คือจำนวนช่องคะแนนของแต่ละวิชา เรากำหนดให้ทุกวิชาช่องคะแนนเท่ากัน
                     for_contain.append('-')                 # นำ '-' ใส่เข้าไป 6 รอบ
                 Grade.append(for_contain)                   # ได้ค่า for_contain ที่สมบูรณ์ จึงนำไปใส่ใน Grade
                 
