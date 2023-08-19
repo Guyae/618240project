@@ -98,13 +98,13 @@ def check_isnumberic(string):
     return str(string).isnumeric    # เช็คว่าค่าที่รับมาเป็นตัวเลขหรือป่าว
 
 def add_data(file_name):
-    data_list = []                                          
-    Grade = []
-    degree = [3.0, 3.0, 3.0, 3.0, 3.0]
-    sum_degree = 0
-    subject = 0
-    degree_product_grade = 0
-    GPA = 0
+    data_list = []                                              # กำหนด data_list เพื่อรับค่าข้อมูลในไฟล์ชื่อ file_name ( ชื่อวิชานั้นๆ )
+    Grade = []                                                  # กำหนด Grade เพื่อรับค่าข้อมูลในไฟล์ GPA.csv 
+    degree = [3.0, 3.0, 3.0, 3.0, 3.0]                          # กำหนด degree เพื่อกำหนดหน่วยกิตของวิชานั้นๆ โดยต้องกรอกเรียงวิชาตามหน้าที่เราเลทอกวิชา
+    sum_degree = 0                                              # กำหนด sum_degree เพื่อนรับผลรวมหน่วยกิตวิชาที่นำมาคำนวณหาหน่วยกิต
+    subject = 0                                                 # กำหนด subject เพื่อรับค่าว่าวิชาไหนเลขอะไร
+    degree_product_grade = 0                                    # กำหนด degree_product_grade เพื่อหาผลคูณระหว่างเกรดที่ได้กับหน่วยกิตวิชานั้นๆ
+    GPA = 0                                                     # กำหนด GPA เพื่อรับค่า GPA ที่คำนวณได้ แล้วนำไปใส่ใน Grade ต่อไป
     if file_name == "test.csv":
         subject = 1
     elif file_name == "618214.csv":
