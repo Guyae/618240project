@@ -122,9 +122,6 @@ def gotoadd_data_or_not(file_name):
     elif x== "no":
         welcome()            
 
-def check_isnumberic(string):
-    return str(string).isnumeric    # เช็คว่าค่าที่รับมาเป็นตัวเลขหรือป่าว
-
 def add_data(file_name):
     Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade']
     # กำหนด  Columns = ['Student ID', 'Q1', 'Mid', 'Q2', 'Final', 'Attendance', 'Total', 'Grade'] เพื่อเป็น Columns
@@ -176,7 +173,6 @@ or enter 'Quit' for close''')
         if enter_data != 'quit':                                # เช็คว่า enter_data ไม่เท่ากับ 'quit' ใช่มั้ย
             enter_data_list = enter_data.split(' ')
             print(enter_data_list)
-            print(len(data))
             for search in range(len(data_list)):                # วนรหัส นศ 
                 if enter_data_list[0] == data_list[search][0]:  # วนรหัส นศ ว่ามีรหัสนั้นอยู่แล้วมั้ย
                     data_list[search] = enter_data_list         # ถ้ามีอยู่แล้ว ให้ข้อมูลที่เป็นรหัส นศ นั้นๆ = ข้อมูลใหม่
@@ -186,16 +182,27 @@ or enter 'Quit' for close''')
                     print(data_list[search])
                     break                                       # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
                 elif search == (len(data_list)-1):              # เช้คว่าวนจนรอบสุดท้ายหรือยัง
-                    for index in range(len(data_list[search])): 
-                        if calculate_score(enter_data_list):    # ใน calculate_score มี try, except คอยเช็คว่าพิมพ์ข้อมูลครบ หรือว่าพิมพ์ข้อมูลที่คำนวณได้หรือไม่
-                            data_list.append(enter_data_list)   # ถ้าใช่ให้นำไปใส่ใน data_list
-                            merge_sort(data_list)               # เสร็จแล้วเรียงรหัส นศ
-                            print()
-                            print("--- Adding data is complete ---")
-                            print(data_list)                    
-                            break                               # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
-                        else:
-                            break
+                    count_index = 0                             # กำหนด count_index เพื่อนับจำนวน index ใน enter_data_list
+                    for i in enter_data_list:                   # ให้วนใน enter_data_list
+                        count_index += 1                        # ให้ + 1 ไปเรื่อยจนกว่าจะหมดใน list 
+                    print(count_index)    
+                    if count_index <= 8 and str(enter_data_list[0]).isnumeric():    # เช็คว่ารหัส นศ เป็นตัวเลขหรือไม่ และความยาวน้อยกว่าเท่ากับ 8 ตัวหรือไม่
+                        for index in range(len(data_list[search])): 
+                            if calculate_score(enter_data_list):                    # ใน calculate_score มี try, except คอยเช็คว่าพิมพ์ข้อมูลครบ หรือว่าพิมพ์ข้อมูลที่คำนวณได้หรือไม่
+                                data_list.append(enter_data_list)                   # ถ้าใช่ให้นำไปใส่ใน data_list
+                                merge_sort(data_list)                               # เสร็จแล้วเรียงรหัส นศ
+                                print()
+                                print("--- Adding data is complete ---")
+                                print(data_list)                    
+                                break                                               # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
+                            else:
+                                break
+                    elif count_index > 8:                                           # ถ้าใส่ข้อมูลยาวมากกว่า 8 ตัว
+                        print()
+                        print("--- Please enter follow our form ---")
+                    else:                                                           # ถ้ารหัส นศ ไม่ใช่ตัวเลข
+                        print()
+                        print("--- Please enter a numeric Student ID ---")
                 else:
                     continue
 
@@ -332,11 +339,13 @@ def calculate_score(add_data_list):
             total += int(add_data_list[score+1])            # บวกคะแนนรวม
         add_data_list[6] = total                            
         add_data_list[7] = check_grade(total)               # กำหนดให้ add_data_list[7] = check_grade(total) เข้าไปเช้คเกรด ว่าได้เกรดเท่าไหร่
-    except IndexError:                                      # ถ้าเราใส่ข้อมูลไม่ครบ จะขึ้นว่า "--- Please enter whole data ---"  
-        print("--- Please enter whole data ---")
+    except IndexError:                                      
+        print()
+        print("--- Please enter whole data ---")            # ถ้าเราใส่ข้อมูลไม่ครบ จะขึ้นว่า "--- Please enter whole data ---"  
         return False
-    except ValueError:                                      # ถ้าเราใส่ข้อมุลที่ไม่สามารถคำนวณได้ จะขึ้นว่า "--- Please enter follow our from data ---"
-        print("--- Please enter follow our from data ---")
+    except ValueError:                                      
+        print()
+        print("--- Please enter numeric score ---")         # ถ้าเราใส่ข้อมุลที่ไม่สามารถคำนวณได้ จะขึ้นว่า "--- Please enter numeric score ---"
         return False
     else:
         return True
