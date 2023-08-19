@@ -78,18 +78,42 @@ def pull_data(file_name):
         1.Everyone 
         2.Enter student ID ''')  
         choice = input(">")
-        if choice == "1":
+        print("""What do you want to know
+              1.Q1
+              2.Mid
+              3.Q2
+              4.Final
+              5.Attendance
+              6.Total
+              7.Grade
+              8.All""")
+        p=int(input(">"))
+        if p==8:
+            if choice == "1":
+                    for row in data_list:
+                        print(row)
+            elif choice == "2":
+                student_id = input("Enter student ID: ")
+                found = 0
                 for row in data_list:
-                    print(row)
-        elif choice == "2":
-            student_id = input("Enter student ID: ")
-            found = 0
-            for row in data_list:
-                if row[0] == student_id:
-                    print(row)
-                    found = 1
-            if found ==0:
-                gotoadd_data_or_not(file_name)
+                    if row[0] == student_id:
+                        print(row)
+                        found = 1
+                if found ==0:
+                    gotoadd_data_or_not(file_name)
+        else:
+            if choice == "1":
+                    for row in data_list:
+                        print(row[0],row[p])
+            elif choice == "2":
+                student_id = input("Enter student ID: ")
+                found = 0
+                for row in data_list:
+                    if row[0] == student_id:
+                        print(row[0],row[p])
+                        found = 1
+                if found ==0:
+                    gotoadd_data_or_not(file_name)
                      
 def gotoadd_data_or_not(file_name):
     x=input("Do you want to add/edit data?:").lower()
