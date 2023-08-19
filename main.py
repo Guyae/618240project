@@ -56,7 +56,7 @@ def welcome():
             if choice in number_list:
                 break
             else:
-                print('--- Please enter number 1-7  ---')
+                print('--- Please enter number 1-7 ---')
                 print()
         else:
             print('--- Please enter a number ---')
@@ -179,6 +179,8 @@ or enter 'Quit' for close''')
                 if enter_data_list[0] == data_list[search][0]:  # วนรหัส นศ ว่ามีรหัสนั้นอยู่แล้วมั้ย
                     data_list[search] = enter_data_list         # ถ้ามีอยู่แล้ว ให้ข้อมูลที่เป็นรหัส นศ นั้นๆ = ข้อมูลใหม่
                     calculate_score(data_list[search])          # เสร็จแล้วคำนวณเกรด
+                    print()
+                    print("--- Editing is complete ---")
                     print(data_list[search])
                     break                                       # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
                 elif search == (len(data_list)-1):              # เช้คว่าวนจนรอบสุดท้ายหรือยัง
@@ -186,8 +188,10 @@ or enter 'Quit' for close''')
                         if calculate_score(enter_data_list):    # ใน calculate_score มี try, except คอยเช็คว่าพิมพ์ข้อมูลครบ หรือว่าพิมพ์ข้อมูลที่คำนวณได้หรือไม่
                             data_list.append(enter_data_list)   # ถ้าใช่ให้นำไปใส่ใน data_list
                             merge_sort(data_list)               # เสร็จแล้วเรียงรหัส นศ
-                            print(data_list)                    # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
-                            break
+                            print()
+                            print("--- Adding data is complete ---")
+                            print(data_list)                    
+                            break                               # เมื่อเสร็จแล้วจะไปรหัส นศ ต่อไป
                         else:
                             break
                 else:
@@ -269,6 +273,8 @@ or enter 'Quit' for close''')
         csv_writer_grade = csv.writer(csvfile_w_grade)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
         csv_writer_grade.writerow(list(Columns_grade))                  # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลทุกตัวเขียนใน 1 บรรทัด
         csv_writer_grade.writerows(Grade)                               # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลแต่ละตัวเขียน 1 แถว
+
+    print("--- Adding or Editing is complete ---")
 
 def merge(A, p, q, r):
     # If A is a list, slicing creates a copy.
