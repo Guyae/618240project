@@ -247,6 +247,7 @@ or enter 'Quit' for close''')
         try:
             Grade[grades][subject] = data_list[grades][7]               # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
         except IndexError:
+            print()
             print("--- There is no data in this file ---")              # ถ้า IndexError จะแจ้งว่าไม่มีข้อมูลในไฟล์
             break
         for calculate in range(1,6):
