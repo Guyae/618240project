@@ -125,7 +125,7 @@ def add_data(file_name):
         #print(Columns)
         for data in csv_reader:                                 # วนข้อมูลใน csv_reader ที่อ่านค่ามา
             if data != []:                                      # เช็คว่า data != [] ใช่มั้ย
-                calculate_score(data)
+                calculate_score(data)                           # คำนวณเกรดที่มีคะแนนอยู่แล้ว
                 data_list.append(data)                          # ถ้าใช่ เอา data ใส่เข้าใน data_list   
 
         print(data_list)
@@ -213,13 +213,13 @@ or enter 'Quit' for close''')
         for calculate in range(1,6):
             number_grade = check_grade(Grade[grades][calculate])        # แปลงเกรดตัวอักษรเป็น ตัวเลข   
             degree_product_grade += number_grade*degree[calculate-1]    # เอาเกรดที่เป็นตัวเลข*หน่วยกิต 
-            if Grade[grades][calculate] != '-':                         # ถ้าเกรดที่นำเข้ามา ไม่ใช่ '-' sum_degree หรือผลรวมหน่วยกิต จะบวกหน่วยกิตวิชานั้นๆ
-                sum_degree += degree[calculate-1]
-        try:
-            GPA = degree_product_grade/sum_degree                           # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
-        except ZeroDivisionError:
-            GPA = 0
-        Grade[grades][6] = GPA
+            if Grade[grades][calculate] != '-':                         # เช็คเกรดที่นำเข้ามา ไม่ใช่ '-' ใช่มั้ย
+                sum_degree += degree[calculate-1]                       # sum_degree หรือผลรวมหน่วยกิต จะบวกหน่วยกิตวิชานั้นๆ
+        try:                                                            # เช็คว่า หารได้หรือไม่
+            GPA = degree_product_grade/sum_degree                       # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
+        except ZeroDivisionError:                                       # ถ้าเป็น 0/0 จะ error 
+            GPA = 0                                                     # จึงกำหนดให้ GPA = 0
+        Grade[grades][6] = GPA                                          # นำ GPA ไปใส่ใน Grade 
 
     print()
     print()
