@@ -152,7 +152,7 @@ def pull_data(file_name):
         Data = LinkedList()                                             # ให้ Data เป็น LinkedList
         for data in csv_reader:                                         # วนข้อมูลใน csv_reader ที่อ่านค่ามา
             Data.append(data)                                           # เอา data ใส่เข้าใน Data  
-        print(Data)
+        # print(Data)
 
     if Data._head != None:
         while True:                                                             # วนจนกว่าผู้ใช้จะพอ
