@@ -91,23 +91,34 @@ def pull_data(file_name):
             for_search = []
             i = 1
             s = ""
-            if choice == "everyone":
+            if choice == "e":
                 while curr != None:
-                    s += "node : " + str(i) + " " + str(curr) + "\n"
+                    for data in curr.data:
+                        s += "{:^10} |".format(data)
+                    s += "\n"
                     curr = curr.next
                     i += 1
             elif str(choice).isnumeric():
                 # for data in curr.data:
                     # for_search_list.append(curr.data)
                     # for_search.append(curr.data)
+                count_column = 0
                 while curr != None:
                     for data in curr.data:
                         # print(data)
                         if data == choice:
-                            s += "node : " + str(i) + " " + str(curr) + "\n"
+                            s += "\n"
+                            for data_section in curr.data:
+                                s += "{:^10} |".format(data_section)
+                        elif str(data).isprintable:
+                            if count_column <= 7:
+                                print(count_column)
+                                s += "{:^10} |".format(data)
+                            count_column += 1
                     curr = curr.next
                 
             elif type(choice) is list:
+                count_columns = 0
                 count_round = 0
                 for data in range(int(choice[0]),int(choice[1])):
                     while curr != None:
@@ -118,11 +129,18 @@ def pull_data(file_name):
                                 print(count_round)
                                 if count_round == 0:
                                     if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):
-                                        s += "node : " + str(i) + " " + str(curr) + "\n"
+                                        s += "\n"
+                                        for data_section in curr.data:
+                                            s += "{:^10} |".format(data_section)
                                 elif count_round == 4:
                                     count_round = 0
                                 else:
                                     count_round += 1
+                            else:
+                                if count_columns <= 7:
+                                    print(count_columns)
+                                    s += "{:^10} |".format(data)
+                                count_columns += 1
                         curr = curr.next
             
             print(s)
