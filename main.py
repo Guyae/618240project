@@ -64,56 +64,139 @@ def welcome():
     return choice
 
 def pull_data(file_name):
-    with open(file_name, 'r') as csv_file:
-        data_list=[]
-        csv_reader = csv.reader(csv_file)
-        for i in csv_reader:
-              if i != []:
-                data_list.append(i)
-                pass
-    if data_list == []:
-        gotoadd_data_or_not(file_name)
-    else:
-        print('''Do you want to pull everyone's data or only some student?
-        1.Everyone 
-        2.Enter student ID ''')  
-        choice = input(">")
-        print("""What do you want to know
-              1.Q1
-              2.Mid
-              3.Q2
-              4.Final
-              5.Attendance
-              6.Total
-              7.Grade
-              8.All""")
-        p=int(input(">"))
-        if p==8:
-            if choice == "1":
-                    for row in data_list:
-                        print(row)
-            elif choice == "2":
-                student_id = input("Enter student ID: ")
-                found = 0
-                for row in data_list:
-                    if row[0] == student_id:
-                        print(row)
-                        found = 1
-                if found ==0:
-                    gotoadd_data_or_not(file_name)
-        else:
-            if choice == "1":
-                    for row in data_list:
-                        print(row[0],row[p])
-            elif choice == "2":
-                student_id = input("Enter student ID: ")
-                found = 0
-                for row in data_list:
-                    if row[0] == student_id:
-                        print(row[0],row[p])
-                        found = 1
-                if found ==0:
-                    gotoadd_data_or_not(file_name)
+    class Node():
+        def __init__(self, datum):
+            self.data = datum
+            self.next = None
+        def getData(self):
+            return self.data
+        def __str__(self):
+            return str(self.data)
+    class LinkedList():
+        def __init__(self):
+            self._head = None
+            self._tail = None
+            self._size = 0
+        def append(self, datum):
+            new_node = Node(datum)
+            if self._tail == None:
+                self._tail= new_node
+                self._head = new_node
+            else:
+                self._tail.next = new_node
+                self._tail = self._tail.next
+        def show(self,choice):
+            curr = self._head
+            for_search_list = []
+            for_search = []
+            i = 1
+            s = ""
+            if choice == "everyone":
+                while curr != None:
+                    s += "node : " + str(i) + " " + str(curr) + "\n"
+                    curr = curr.next
+                    i += 1
+            elif str(choice).isnumeric():
+                # for data in curr.data:
+                    # for_search_list.append(curr.data)
+                    # for_search.append(curr.data)
+                while curr != None:
+                    for data in curr.data:
+                        # print(data)
+                        if data == choice:
+                            s += "node : " + str(i) + " " + str(curr) + "\n"
+                    curr = curr.next
+                
+            elif type(choice) is list:
+                count_round = 0
+                for data in range(int(choice[0]),int(choice[1])):
+                    while curr != None:
+                        for data in curr.data:
+                            # print(data)
+                            if str(data).isnumeric():
+                                # print(data)
+                                print(count_round)
+                                if count_round == 0:
+                                    if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):
+                                        s += "node : " + str(i) + " " + str(curr) + "\n"
+                                elif count_round == 4:
+                                    count_round = 0
+                                else:
+                                    count_round += 1
+                        curr = curr.next
+            
+            print(s)
+
+        def __str__(self):
+            curr = self._head
+            i = 1
+            s = ""
+            while curr != None:
+                s = s + "node : " + str(i) + " " + str(curr) + "\n"
+                curr = curr.next
+                i += 1
+            return(s)
+    
+    
+    with open(file_name, 'r') as csvfile_r: 
+        csv_reader = csv.reader(csvfile_r)
+        Data = LinkedList()
+        for data in csv_reader:
+            Data.append(data)
+        print(Data)
+
+    print()
+    print('''Enter "E" or "S"
+"E : EVERYONE" = If you want to know all student's information
+"S : STUDENT"  = If you want to know only some student's information''')  
+    choice = input(">").lower()
+    if choice == 'e':
+        Data.show(choice)
+
+    elif choice == "s":
+        print()
+        print('''Enter "O" or "R"
+"O : ONLY ONE" = If you want to know only one student's information
+"R : RANGE"    = If you want to know only some student's information''')
+        enter_student = input(">").lower()
+        if enter_student == "o":
+            print()
+            print('''Enter Student ID :
+you can find range student id''')
+            enter_student_id = input(">")
+            Data.show(enter_student_id)
+        elif enter_student == "r":
+            print()
+            print('''Enter range of student id
+Ex : 650910610-650910700''')
+            enter_range_student_id = input(">").split("-")
+            Data.show(enter_range_student_id)
+
+"""    if choice == '2':
+        x = pull(file_name)
+        student_id = input("Enter student ID: ")
+        found = 1
+        for score_obj in x:
+         if score_obj.ID == student_id:
+            found = 0
+            if p == 'All':
+                score_obj.show()
+            elif p == '1':
+                print("student_id", score_obj.ID, "Q1:", score_obj.Q1)
+            elif p == '2':
+                print("student_id", score_obj.ID, "Mid:", score_obj.Mid)
+            elif p == '3':
+                print("student_id", score_obj.ID, "Q2:", score_obj.Q2)
+            elif p == '4':
+                print("student_id", score_obj.ID, "Final:", score_obj.Final)
+            elif p == '5':
+                print("student_id", score_obj.ID, "Attendance:", score_obj.Atd)
+            elif p == '6':
+                print("student_id", score_obj.ID, "Total:", score_obj.Total)
+            elif p == '7':
+                print("student_id", score_obj.ID, "Grade:", score_obj.Grade)
+    if found==1:
+        gotoadd_data_or_not(file_name)"""
                      
 def gotoadd_data_or_not(file_name):
     x=input("Do you want to add/edit data?:").lower()
