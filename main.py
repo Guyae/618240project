@@ -147,11 +147,11 @@ def pull_data(file_name):
             
             print(s)   
     
-    with open(file_name, 'r') as csvfile_r:                                 # กำหนด csvfile_r เป็น open(file_name, 'r') 
-        csv_reader = csv.reader(csvfile_r)                                  # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
-        Data = LinkedList()                                                 # ให้ Data เป็น LinkedList
-        for data in csv_reader:                                             # วนข้อมูลใน csv_reader ที่อ่านค่ามา
-            Data.append(data)                                               # เอา data ใส่เข้าใน Data  
+    with open(file_name, 'r') as csvfile_r:                             # กำหนด csvfile_r เป็น open(file_name, 'r') 
+        csv_reader = csv.reader(csvfile_r)                              # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
+        Data = LinkedList()                                             # ให้ Data เป็น LinkedList
+        for data in csv_reader:                                         # วนข้อมูลใน csv_reader ที่อ่านค่ามา
+            Data.append(data)                                           # เอา data ใส่เข้าใน Data  
         print(Data)
 
     if Data._head != None:
@@ -161,7 +161,7 @@ def pull_data(file_name):
     "E : EVERYONE" = If you want to know all student's information
     "S : STUDENT"  = If you want to know only some student's information
         "QUIT"     = if you want to quit program''')  
-            choice = input("> ").lower()                                         # รับค่า choice
+            choice = input("> ").lower()                                        # รับค่า choice
             if choice == 'e' or choice == 's':                                  # ถ้า choice == 'e' or choice == 's'
                 if choice == 'e':                                               # เช็คว่า choice == 'e'
                     Data.show(choice)                                           # เข้า method ใน LinkedList()
@@ -186,9 +186,9 @@ def pull_data(file_name):
                                 print('''Enter range of student id
     Ex : 650910610-650910700''')
                                 enter_range_student_id = input("> ").split("-") # รับค่า enter_range_student_id
-                                difference = enter_range_student_id[1] - enter_range_student_id[0]
+                                difference = int(enter_range_student_id[1]) - int(enter_range_student_id[0])
                                 if difference > 0:
-                                    Data.show(enter_range_student_id)               # เข้า method ใน LinkedList()
+                                    Data.show(enter_range_student_id)           # เข้า method ใน LinkedList()
                                     break
                                 else:
                                     print()
@@ -218,7 +218,7 @@ def pull_data(file_name):
         print()
         print()
         print('''Do you want to "ADD" or "EDIT" data?:
-Enter "YES" or "NO''')
+    Enter "YES" or "NO''')
         No_data_ans = input("> ").lower()
         if No_data_ans =="yes":
             add_data(file_name)
@@ -314,7 +314,7 @@ or enter 'Quit' for close''')
                 else:
                     continue
 
-        else:                                                   # ถ้าพิมพ์ 'quit' จะจบการกรอกข้อมูล
+        else:                                                                       # ถ้าพิมพ์ 'quit' จะจบการกรอกข้อมูล
             break
 
     # print(data_list)
@@ -375,14 +375,14 @@ or enter 'Quit' for close''')
             if Grade[grades][calculate] != '-':                         # เช็คเกรดที่นำเข้ามา ไม่ใช่ '-' ใช่มั้ย
                 sum_degree += degree[calculate-1]                       # sum_degree หรือผลรวมหน่วยกิต จะบวกหน่วยกิตวิชานั้นๆ
         try:                                                            # เช็คว่า หารได้หรือไม่
-            GPA = degree_product_grade/sum_degree                       # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
+            GPA = float(degree_product_grade)/sum_degree                       # สุตรคำนวณ GPA คือผลรวมของเกรดที่ได้*หน่วยกิตวิชานั้นๆ หารด้วย ผลรวมหน่วยกิต
         except ZeroDivisionError:                                       # ถ้าเป็น 0/0 จะ error 
             GPA = 0                                                     # จึงกำหนดให้ GPA = 0
         Grade[grades][6] = GPA                                          # นำ GPA ไปใส่ใน Grade 
 
     # print(Grade)
 
-    with open('GPA.csv', 'w', newline='') as csvfile_w_grade:         # กำหนด csvfile_w_grade เป็น open(file_name, 'w', newline='')
+    with open('GPA.csv', 'w', newline='') as csvfile_w_grade:           # กำหนด csvfile_w_grade เป็น open(file_name, 'w', newline='')
         csv_writer_grade = csv.writer(csvfile_w_grade)                  # กำหนดให้ csv_writer ว่าจะทำการเขียนข้อมูลลงใน csv
         csv_writer_grade.writerow(list(Columns_grade))                  # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลทุกตัวเขียนใน 1 บรรทัด
         csv_writer_grade.writerows(Grade)                               # เขียนใส่ไฟล์ GPA.csv โดยเอาข้อมูลแต่ละตัวเขียน 1 แถว
@@ -470,21 +470,21 @@ def calculate_score(add_data_list):
 def check_grade(grade_or_score):
     if str(grade_or_score).isprintable():           # เช้คว่าค่าที่รับเข้ามาแล้วกำหนดให้เป็น str สามารถแสดงผลทางหน้าจอได้ป่าว
         if grade_or_score == 'A':                   # เช็คว่าได้เกรดอะไร แล้วแปลงออกมาเป็นตัวเลข
-            return 4.0
+            return 4.00
         elif grade_or_score == 'B+':
-            return 3.5
+            return 3.50
         elif grade_or_score == 'B':
-            return 3.0
+            return 3.00
         elif grade_or_score == 'C+':
-            return 2.5
+            return 2.50
         elif grade_or_score == 'C':
-            return 2.0
+            return 2.00
         elif grade_or_score == 'D+':
-            return 1.5
+            return 1.50
         elif grade_or_score == 'D':
-            return 1.0
+            return 1.00
         elif grade_or_score == 'F' or grade_or_score == '-':
-            return 0.0
+            return 0.00
         
     if str(grade_or_score).isnumeric():             # เช็คว่าค่าที่รับเข้ามาแล้วกำหนดให้เป็น str เป็นตัวเลขหรือไม่
         if int(grade_or_score) >= 80:               # เช็คว่าได้เกรดอะไร แล้วแปลงออกมาเป็นตัวอักษร
