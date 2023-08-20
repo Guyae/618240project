@@ -64,84 +64,86 @@ def welcome():
     return choice
 
 def pull_data(file_name):
-    class Node():
-        def __init__(self, datum):
-            self.data = datum
-            self.next = None
+    class Node():                               # สร้าง class Node() ขึ้นมา
+        
+        def __init__(self, datum):              # __init__ ใช้กำหนดค่าแรกเริ่ม
+            self.data = datum                   # self.data = datum ใช้กำหนดข้อมูลใน Node
+            self.next = None                    # self.next = None ใช้กำหนดตัว link
+        
         def getData(self):
             return self.data
+        
         def __str__(self):
             return str(self.data)
-    class LinkedList():
-        def __init__(self):
-            self._head = None
-            self._tail = None
-            self._size = 0
-        def append(self, datum):
-            new_node = Node(datum)
-            if self._tail == None:
-                self._tail= new_node
-                self._head = new_node
-            else:
-                self._tail.next = new_node
-                self._tail = self._tail.next
-        def show(self,choice):
-            curr = self._head
-            for_search_list = []
-            for_search = []
-            i = 1
-            s = ""
-            if choice == "e":
-                while curr != None:
-                    for data in curr.data:
-                        s += "{:^10} |".format(data)
-                    s += "\n"
-                    curr = curr.next
-                    i += 1
-            elif str(choice).isnumeric():
-                # for data in curr.data:
-                    # for_search_list.append(curr.data)
-                    # for_search.append(curr.data)
-                count_column = 0
-                while curr != None:
-                    for data in curr.data:
+    
+    class LinkedList():                         # สร้าง class LinkedList()
+        
+        def __init__(self):                     # __init__ ใช้กำหนดค่าแรกเริ่ม
+            self._head = None                   # self._head = None ใช้กำหนดหัว
+            self._tail = None                   # self._tail = None ใช้กำหนดหาง
+            self._size = 0                      # self._size = 0 กำหนดขนาดคงที่
+        
+        def append(self, datum):                # สร้าง def append ไว้ link node
+            new_node = Node(datum)              # สร้าง Node(datum) ใหม่ 
+            if self._tail == None:              # เช็คว่า self._tail == None หรือไม่
+                self._tail= new_node            # กำหนดให้ self._tail= new_node
+                self._head = new_node           # กำหนดให้ self._head = new_node 
+            else:                               # ถ้าไม่ใช่
+                self._tail.next = new_node      # กำหนดให้ self._tail.next = new_node 
+                self._tail = self._tail.next    # กำหนดให้ self._tail = self._tail.next 
+        
+        def show(self,choice):                          # สร้าง def show ไว้ link node               
+            curr = self._head                           # กำหนดให้ curr = self._head
+            s = ""                                      # กำหนดให้ s = "" 
+            if choice == "e":                           # เช็คว่า choice == "e" หรือไม่
+                while curr != None:                     # เข้าถึงข้อมูลที่ linked อยู่
+                    for data in curr.data:              # ให้ data เป็นข้อมูลใน curr.data
+                        s += "{:^10} |".format(data)    # เพิ่มข้อความใน s
+                    s += "\n"                           # เพิ่มให้ขึ้นบรรทัดใหม่
+                    curr = curr.next                    # กำหนดให้ curr = curr.next คือไป node ต่อไป
+            
+            elif str(choice).isnumeric():                               # เช็คว่า str(choice) เป็นตัวเลขหรือไม่
+                count_column = 0                                        # กำหนด count_column = 0
+                while curr != None:                                     # เข้าถึงข้อมูลที่ linked อยู่
+                    for data in curr.data:                              # ให้ data เป็นข้อมูลใน curr.data
                         # print(data)
-                        if data == choice:
-                            s += "\n"
-                            for data_section in curr.data:
-                                s += "{:^10} |".format(data_section)
-                        elif str(data).isprintable:
-                            if count_column <= 7:
-                                print(count_column)
-                                s += "{:^10} |".format(data)
+                        if data == choice:                              # ถ้า data == choice
+                            s += "\n"                                   # เพิ่มให้ขึ้นบรรทัดใหม่
+                            for data_section in curr.data:              # ให้ data_section เป็นข้อมูลใน curr.data
+                                s += "{:^10} |".format(data_section)    # เพิ่มข้อความใน s
+                        elif str(data).isprintable:                     # เช็คว่า str(data) สามารถแสดงหน้าจอได้ป่าว
+                            if count_column <= 7:                       # ถ้า count_column <= 7
+                                print(count_column)             
+                                s += "{:^10} |".format(data)            # เพิ่มข้อความใน s เพิ่ม column ใน s 
                             count_column += 1
-                    curr = curr.next
+                    curr = curr.next                                    # กำหนดให้ curr = curr.next คือไป node ต่อไป
                 
-            elif type(choice) is list:
-                count_columns = 0
-                count_round = 0
-                for data in range(int(choice[0]),int(choice[1])):
-                    while curr != None:
-                        for data in curr.data:
+            elif type(choice) is list:                                  # เช็คว่า type(choice) is list ได้หรือไม่
+                count_columns = 0                                       # กำหนด count_columns = 0 นับ column
+                count_round = 0                                         # กำหนด count_round = 0 นับรอบ 
+                for data in range(int(choice[0]),int(choice[1])):       # ให้ data วนตามจำนวนผลต่างของช่วงรหัส นศ
+                    while curr != None:                                 # เข้าถึงข้อมูลที่ linked อยู่
+                        for data in curr.data:                          # ให้ data เป็นข้อมูลใน curr.data
                             # print(data)
-                            if str(data).isnumeric():
+                            if str(data).isnumeric():                   # เช็คว่า str(data) เป็นตัวเลขหรือไม่
                                 # print(data)
-                                print(count_round)
-                                if count_round == 0:
-                                    if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):
-                                        s += "\n"
-                                        for data_section in curr.data:
+                                if count_round == 0:                    # เช็คว่า count_round = 0 หรือไม่
+                                    if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):         
+                                    # เช็คว่า data อยู่ในช่วงรหัส นศ ที่ใส่มาหรือไม่
+                                        s += "\n"                       # เพิ่มให้ขึ้นบรรทัดใหม่ 
+                                        for data_section in curr.data:  # ให้ data_section เป็นข้อมูลใน curr.data
                                             s += "{:^10} |".format(data_section)
-                                elif count_round == 4:
-                                    count_round = 0
-                                else:
-                                    count_round += 1
-                            else:
-                                if count_columns <= 7:
-                                    print(count_columns)
-                                    s += "{:^10} |".format(data)
-                                count_columns += 1
-                        curr = curr.next
+                                            # เพิ่มข้อความใน s
+                                elif count_round == 4:                  # ถ้า count_round == 4
+                                    count_round = 0                     # กำหนด count_round = 0
+                                else:                                   # นอกจากนั้น
+                                    count_round += 1                    # ให้ count_round +1 เพิ่ม
+                            else:                                       # str(data) ไม่ใช่ตัวเลข
+                                if count_columns <= 7:                  # ถ้า count_columns <= 7
+                                    #print(count_columns)
+                                    s += "{:^10} |".format(data)        # เพิ่มข้อความใน s เพิ่ม column ใน s 
+                                count_columns += 1                      # ให้ count_round +1 เพิ่ม
+                        curr = curr.next                                # กำหนดให้ curr = curr.next คือไป node ต่อไป
             
             print(s)
 
@@ -156,39 +158,56 @@ def pull_data(file_name):
             return(s)
     
     
-    with open(file_name, 'r') as csvfile_r: 
-        csv_reader = csv.reader(csvfile_r)
-        Data = LinkedList()
-        for data in csv_reader:
-            Data.append(data)
+    with open(file_name, 'r') as csvfile_r:                                 # กำหนด csvfile_r เป็น open(file_name, 'r') 
+        csv_reader = csv.reader(csvfile_r)                                  # กำหนด csv_reader ว่าจะทำการอ่านข้อมูลในไฟล์
+        Data = LinkedList()                                                 # ให้ Data เป็น LinkedList
+        for data in csv_reader:                                             # วนข้อมูลใน csv_reader ที่อ่านค่ามา
+            Data.append(data)                                               # เอา data ใส่เข้าใน Data  
         print(Data)
 
-    print()
-    print('''Enter "E" or "S"
-"E : EVERYONE" = If you want to know all student's information
-"S : STUDENT"  = If you want to know only some student's information''')  
-    choice = input(">").lower()
-    if choice == 'e':
-        Data.show(choice)
-
-    elif choice == "s":
+    while True:                                                             # วนจนกว่าผู้ใช้จะพอ
         print()
-        print('''Enter "O" or "R"
+        print('''Enter "E" or "S" or "QUIT                                  
+"E : EVERYONE" = If you want to know all student's information
+"S : STUDENT"  = If you want to know only some student's information
+    "QUIT"     = if you want to quit program''')  
+        choice = input(">").lower()                                         # รับค่า choice
+        if choice == 'e' or choice == 's':                                  # ถ้า choice == 'e' or choice == 's'
+            if choice == 'e':                                               # เช็คว่า choice == 'e'
+                Data.show(choice)                                           # เข้า method ใน LinkedList()
+
+            elif choice == "s":                                             # เช็คว่า choice == 'e'
+                while True:                                                 # วนไปเรื่อยๆ
+                    print()
+                    print('''Enter "O" or "R"
 "O : ONLY ONE" = If you want to know only one student's information
 "R : RANGE"    = If you want to know only some student's information''')
-        enter_student = input(">").lower()
-        if enter_student == "o":
-            print()
-            print('''Enter Student ID :
+                    enter_student = input(">").lower()                      # รับค่า enter_student
+                    if enter_student == "o" or enter_student == "r":        # เช็คว่า enter_student == "o" or enter_student == "r"
+                        if enter_student == "o":                            # เช็คว่า enter_student == "o"
+                            print()
+                            print('''Enter Student ID :
 you can find range student id''')
-            enter_student_id = input(">")
-            Data.show(enter_student_id)
-        elif enter_student == "r":
-            print()
-            print('''Enter range of student id
+                            enter_student_id = input(">")                   # รับค่า enter_student_id
+                            Data.show(enter_student_id)                     # เข้า method ใน LinkedList()
+                            break
+                        elif enter_student == "r":                          # เช็คว่า enter_student == "r"
+                            print()
+                            print('''Enter range of student id
 Ex : 650910610-650910700''')
-            enter_range_student_id = input(">").split("-")
-            Data.show(enter_range_student_id)
+                            enter_range_student_id = input(">").split("-")  # รับค่า enter_range_student_id
+                            Data.show(enter_range_student_id)               # เข้า method ใน LinkedList()
+                            break
+                    else:                                                   # ถ้าไม่ใช่ enter_student == "o" or enter_student == "r"
+                        print()
+                        print('--- Please enter  "O" or "R" ---')
+        
+        elif choice == 'quit':                                              # เช็คว่า choice == 'quit'
+            break                                                           # จะออกจากลูป
+        
+        else:                                                               # ถ้าไม่ใช่ choice == 'e' or choice == 's'
+            print()
+            print('--- Please enter  "E" or "S" ---')
 
 """    if choice == '2':
         x = pull(file_name)
