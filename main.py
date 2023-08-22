@@ -55,7 +55,7 @@ def welcome():
         number_list = [str(number+1) for number in range(7)]        # สร้าง number_list มาเก็บตัวเลข 1-7 คือจำนวนตัวเลือกข้อโปรแกรม
         print('Enter your subject (1-7):')
         choice = input('> ')
-        if choice.isdecimal():                                      # เช็คว่า choice เป็นตัวเลขหรือไม่
+        if choice.isdecimal():                                      # เช็คว่า choice เป็นเลขฐาน 10 หรือไม่
             if choice in number_list:                               # เช็คว่า choice อยู่ใน number_list มั้ย
                 break
             else:                                                   # ถ้าไม่ใช่จะขึ้นว่า '--- Please enter number 1-7 ---'
@@ -113,7 +113,7 @@ def pull_data(file_name):
                                 s += "{:^10} |".format(data_section)    # เพิ่มข้อความใน s
                         elif str(data).isprintable:                     # เช็คว่า str(data) สามารถแสดงหน้าจอได้ป่าว
                             if count_column <= 7:                       # ถ้า count_column <= 7
-                                print(count_column)             
+                                # print(count_column)             
                                 s += "{:^10} |".format(data)            # เพิ่มข้อความใน s เพิ่ม column ใน s 
                             count_column += 1                           # ให้ count_column +1 เพิ่ม
                     curr = curr.next                                    # กำหนดให้ curr = curr.next คือไป node ต่อไป
@@ -127,17 +127,12 @@ def pull_data(file_name):
                             # print(data)
                             if str(data).isnumeric():                   # เช็คว่า str(data) เป็นตัวเลขหรือไม่
                                 # print(data)
-                                if count_round == 0:                    # เช็คว่า count_round = 0 หรือไม่
-                                    if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):         
-                                    # เช็คว่า data อยู่ในช่วงรหัส นศ ที่ใส่มาหรือไม่
-                                        s += "\n"                       # ให้ขึ้นบรรทัดใหม่ 
-                                        for data_section in curr.data:  # ให้ data_section เป็นข้อมูลใน curr.data
-                                            s += "{:^10} |".format(data_section)
-                                            # เพิ่มข้อความใน s
-                                elif count_round == 4:                  # ถ้า count_round == 4
-                                    count_round = 0                     # กำหนด count_round = 0
-                                else:                                   # นอกจากนั้น
-                                    count_round += 1                    # ให้ count_round +1 เพิ่ม
+                                if (int(data) >= int(choice[0])) and (int(data) <= int(choice[1])):         
+                                # เช็คว่า data อยู่ในช่วงรหัส นศ ที่ใส่มาหรือไม่
+                                    s += "\n"                           # ให้ขึ้นบรรทัดใหม่ 
+                                    for data_section in curr.data:      # ให้ data_section เป็นข้อมูลใน curr.data
+                                        s += "{:^10} |".format(data_section)
+                                        # เพิ่มข้อความใน s
                             else:                                       # str(data) ไม่ใช่ตัวเลข
                                 if count_columns <= 7:                  # ถ้า count_columns <= 7
                                     #print(count_columns)
@@ -176,11 +171,16 @@ def pull_data(file_name):
                         if enter_student == "o" or enter_student == "r":        # เช็คว่า enter_student == "o" or enter_student == "r"
                             if enter_student == "o":                            # เช็คว่า enter_student == "o"
                                 print()
-                                print('''Enter Student ID :
-    you can find range student id''')
+                                print('Enter Student ID : ')
                                 enter_student_id = input("> ")                  # รับค่า enter_student_id
-                                Data.show(enter_student_id)                     # เข้า method ใน LinkedList()
-                                break
+                                if enter_student_id.isnumeric():
+                                    Data.show(enter_student_id)                     # เข้า method ใน LinkedList()
+                                    break
+                                else:
+                                    print()
+                                    print("/////////////////////////////////////////")
+                                    print("--- Please enter a numeric Student ID ---")
+                                    print("/////////////////////////////////////////")
                             elif enter_student == "r":                          # เช็คว่า enter_student == "r"
                                 print()
                                 print('''Enter range of student id
@@ -359,8 +359,6 @@ or enter 'Quit' for close''')
     # print(data_list)
             
     for grades in range(len(Grade)):
-        sum_degree = 0                                                  # กำหนด sum_degree ไว้รับค่าผลรวมของหน่วยกิตที่นำมาคำนวณ สมมติในตารางมี 4 วิชาก็จะใช้ หน่วยกิต 4 วิชา
-        degree_product_grade  = 0                                       # กำหนดค่า degree_product_grade ไว้รับค่าเกรดที่ได้ * หน่วยกิตวิชานั้นๆ
         try:
             Grade[grades][subject] = data_list[grades][7]               # ทำให้ใน Grade เก็บค่าเกรดเป็นตำอักษรในวิชานั้นๆ
         except IndexError:
